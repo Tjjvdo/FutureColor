@@ -102,3 +102,8 @@ main {
 .kleur-vierkantje.gevuld {
     background-color: lightcoral; /* Voorbeeld gevulde kleur */
 }
+
+.fout-veld {
+    border: 2px solid red;
+    background-color: #ffeeee;
+}

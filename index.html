@@ -26,37 +26,24 @@
             <h2>Ingrediënten Beheer</h2>
             <button id="nieuw-ingredient-knop">Nieuw Ingrediënt Maken</button>
 
-            <div id="ingredient-formulier" style="display: none;">
+            <form id="ingredient-formulier" style="display: none;">
                 <h3>Nieuw Ingrediënt</h3>
                 <label for="mengtijd">Mengtijd (ms):</label>
-                <input type="number" id="mengtijd" name="mengtijd" required><br><br>
-
+                <input type="number" id="mengtijd" name="mengtijd" value="100"><br><br>
+        
                 <label for="mengsnelheid">Mengsnelheid:</label>
-                <input type="number" id="mengsnelheid" name="mengsnelheid" required><br><br>
-
-                <label for="kleur-type">Kleur Type:</label>
-                <select id="kleur-type" name="kleur-type">
-                    <option value="rgb">RGB</option>
-                    <option value="hsl">HSL</option>
-                </select><br><br>
-
+                <input type="number" id="mengsnelheid" name="mengsnelheid" value="1"><br><br>
+        
                 <div id="kleur-rgb-inputs">
+                    <h4>RGB Kleur</h4>
                     <label for="rgb-rood">Rood (0-255):</label>
-                    <input type="number" id="rgb-rood" name="rgb-rood" min="0" max="255"><br><br>
+                    <input type="number" id="rgb-rood" name="rgb-rood" min="0" max="255" value="0"><br><br>
                     <label for="rgb-groen">Groen (0-255):</label>
-                    <input type="number" id="rgb-groen" name="rgb-groen" min="0" max="255"><br><br>
+                    <input type="number" id="rgb-groen" name="rgb-groen" min="0" max="255" value="0"><br><br>
                     <label for="rgb-blauw">Blauw (0-255):</label>
-                    <input type="number" id="rgb-blauw" name="rgb-blauw" min="0" max="255"><br><br>
+                    <input type="number" id="rgb-blauw" name="rgb-blauw" min="0" max="255" value="0"><br><br>
                 </div>
-
-                <div id="kleur-hsl-inputs" style="display: none;"> <label for="hsl-hue">Hue (0-360):</label>
-                    <input type="number" id="hsl-hue" name="hsl-hue" min="0" max="360"><br><br>
-                    <label for="hsl-saturation">Saturation (0-100):</label>
-                    <input type="number" id="hsl-saturation" name="hsl-saturation" min="0" max="100"><br><br>
-                    <label for="hsl-lightness">Lightness (0-100):</label>
-                    <input type="number" id="hsl-lightness" name="hsl-lightness" min="0" max="100"><br><br>
-                </div>
-
+        
                 <label for="structuur">Structuur:</label>
                 <select id="structuur" name="structuur">
                     <option value="korrel">Korrel</option>
@@ -64,10 +51,10 @@
                     <option value="glad">Glad</option>
                     <option value="slijmerig">Slijmerig</option>
                 </select><br><br>
-
+        
                 <button type="button" id="ingredient-toevoegen-knop">Ingrediënt Toevoegen</button>
                 <button type="button" id="annuleer-ingredient-knop">Annuleren</button>
-            </div>
+            </form>
 
             <h3>Ingrediënten:</h3>
             <div id="ingredienten-lijst">
@@ -76,32 +63,26 @@
 
         <section id="potten-mengmachines-hal-1" class="active">
             <h2>Meng Hal 1</h2>
-            <button>Nieuwe Pot Maken</button>
-            <button>Nieuwe Mengmachine Maken</button>
-
+            <button id="nieuwe-pot-knop-hal-1">Nieuwe Pot Maken</button>
+        
             <h3>Potten:</h3>
             <div id="potten-hal-1">
-                <div class="pot-voorbeeld"></div>
-                <div class="pot-voorbeeld"></div>
-            </div>
-
+                </div>
+        
             <h3>Mengmachines:</h3>
             <div id="mengmachines-hal-1">
                 <div class="mengmachine-voorbeeld"></div>
             </div>
         </section>
-
+        
         <section id="potten-mengmachines-hal-2">
             <h2>Meng Hal 2</h2>
-            <button>Nieuwe Pot Maken</button>
-            <button>Nieuwe Mengmachine Maken</button>
-
+            <button id="nieuwe-pot-knop-hal-2">Nieuwe Pot Maken</button>
+        
             <h3>Potten:</h3>
             <div id="potten-hal-2">
-                <div class="pot-voorbeeld"></div>
-                <div class="pot-voorbeeld"></div>
-            </div>
-
+                </div>
+        
             <h3>Mengmachines:</h3>
             <div id="mengmachines-hal-2">
                 <div class="mengmachine-voorbeeld"></div>
