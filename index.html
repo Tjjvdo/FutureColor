@@ -1,13 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Future Color - Verf Meng Simulator</title>
 </head>
+
 <body>
-    <div>
-        
-    </div>
+    <header>
+        <h1>Future Color - Verf Meng Simulator</h1>
+        <nav>
+            <button class="active">Meng Hal 1</button>
+            <button>Meng Hal 2</button>
+            <button>Kleurentest</button>
+        </nav>
+        <div>
+            API Instellingen & Info (Placeholder)
+        </div>
+    </header>
+
+    <main>
+        <section id="ingredienten-beheer">
+            <h2>Ingrediënten Beheer</h2>
+            <button>Nieuw Ingrediënt Maken</button>
+            <h3>Ingrediënten:</h3>
+            <div id="ingredienten-lijst">
+                <div class="ingrediënt-voorbeeld"></div>
+                <div class="ingrediënt-voorbeeld"></div>
+                <div class="ingrediënt-voorbeeld"></div>
+            </div>
+        </section>
+
+        <section id="potten-mengmachines-hal-1" class="active">
+            <h2>Meng Hal 1</h2>
+            <button>Nieuwe Pot Maken</button>
+            <button>Nieuwe Mengmachine Maken</button>
+
+            <h3>Potten:</h3>
+            <div id="potten-hal-1">
+                <div class="pot-voorbeeld"></div>
+                <div class="pot-voorbeeld"></div>
+            </div>
+
+            <h3>Mengmachines:</h3>
+            <div id="mengmachines-hal-1">
+                <div class="mengmachine-voorbeeld"></div>
+            </div>
+        </section>
+
+        <section id="potten-mengmachines-hal-2">
+            <h2>Meng Hal 2</h2>
+            <button>Nieuwe Pot Maken</button>
+            <button>Nieuwe Mengmachine Maken</button>
+
+            <h3>Potten:</h3>
+            <div id="potten-hal-2">
+                <div class="pot-voorbeeld"></div>
+                <div class="pot-voorbeeld"></div>
+            </div>
+
+            <h3>Mengmachines:</h3>
+            <div id="mengmachines-hal-2">
+                <div class="mengmachine-voorbeeld"></div>
+            </div>
+        </section>
+
+        <section id="kleurentest-pagina">
+            <h2>Kleurentest Pagina</h2>
+            <button>Grid Genereren (Placeholder)</button>
+
+            <h3>Kleur Grid (Placeholder):</h3>
+            <div id="kleur-grid">
+                <div class="kleur-vierkantje gevuld"></div>
+                <div class="kleur-vierkantje"></div>
+                <div class="kleur-vierkantje"></div>
+                </div>
+        </section>
+
+
+        <aside id="weer-status">
+            <h2>Weer & Status</h2>
+            <div>
+                <h3>Actueel Weer (Placeholder):</h3>
+                <p>Weer icoon, Temperatuur, etc.</p>
+            </div>
+            <div>
+                <h3>Weersinvloeden (Placeholder):</h3>
+                <p>Status van weersinvloeden op mengtijd/machines.</p>
+            </div>
+            <div>
+                <h3>Machine Status (Placeholder):</h3>
+                <p>Status van de mengmachines in actieve hal.</p>
+            </div>
+        </aside>
+    </main>
+
 </body>
+
+<style>
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh; /* Volledige viewport hoogte */
+    }
+
+    header {
+        background-color: #f0f0f0;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+    }
+
+    nav {
+        display: flex;
+    }
+
+    nav button {
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        padding: 8px 15px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    nav button.active {
+        background-color: #d0d0d0;
+    }
+
+    main {
+        display: flex;
+        flex: 1; /* Laat main de beschikbare ruimte innemen */
+    }
+
+    #ingredienten-beheer {
+        width: 250px;
+        padding: 20px;
+        border-right: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    #potten-mengmachines-hal-1, #potten-mengmachines-hal-2, #kleurentest-pagina {
+        flex: 1;
+        padding: 20px;
+        box-sizing: border-box;
+        display: none; /* Standaard verbergen, Javascript nodig om te tonen */
+    }
+
+    #potten-mengmachines-hal-1.active, #potten-mengmachines-hal-2.active, #kleurentest-pagina.active {
+        display: block; /* Tonen met 'active' class */
+    }
+
+
+    #weer-status {
+        width: 200px;
+        padding: 20px;
+        border-left: 1px solid #ccc;
+        box-sizing: border-box;
+        background-color: #f9f9f9;
+    }
+
+    .ingrediënt-voorbeeld {
+        width: 40px;
+        height: 40px;
+        background-color: lightblue; /* Voorbeeldkleur */
+        border: 1px solid #999;
+        margin: 5px;
+        display: inline-block;
+    }
+
+    .pot-voorbeeld {
+        width: 60px;
+        height: 80px;
+        border: 2px solid black;
+        margin: 10px;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+
+    .mengmachine-voorbeeld {
+        width: 100px;
+        height: 120px;
+        background-color: #e0e0e0;
+        border: 2px dashed #777;
+        margin: 10px;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+
+    .kleur-vierkantje {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        display: inline-block;
+        margin: 2px;
+    }
+
+    .kleur-vierkantje.gevuld {
+        background-color: lightcoral; /* Voorbeeld gevulde kleur */
+    }
+</style>
+
 </html>
