@@ -19,30 +19,58 @@ document.addEventListener('DOMContentLoaded', () => {
         nieuwIngredientKnop.style.display = 'block';
     });
 
-    // Event listener voor "Ingrediënt Toevoegen" knop
     ingredientToevoegenKnop.addEventListener('click', () => {
-        // 1. Reset eventuele eerdere foutmeldingen (optioneel, maar netjes)
+        // Reset eventuele eerdere foutmeldingen (optioneel, maar netjes)
         resetFoutmeldingen();
 
-        // 2. Lees de waarden uit het formulier
+        // Lees de waarden uit het formulier
         const mengtijdInput = document.getElementById('mengtijd');
         const mengsnelheidInput = document.getElementById('mengsnelheid');
         const rgbRoodInput = document.getElementById('rgb-rood');
         const rgbGroenInput = document.getElementById('rgb-groen');
         const rgbBlauwInput = document.getElementById('rgb-blauw');
-        const structuurSelect = document.getElementById('structuur');
+        const structuurInput = document.getElementById('structuur');
 
-        const mengtijd = parseInt(mengtijdInput.value);
-        const mengsnelheid = parseInt(mengsnelheidInput.value);
         const rood = parseInt(rgbRoodInput.value);
         const groen = parseInt(rgbGroenInput.value);
         const blauw = parseInt(rgbBlauwInput.value);
-        const structuur = structuurSelect.value;
+
+        valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw);
+
+        // Maak een ingrediënt object (alleen als er GEEN fouten zijn)
+        const kleur = {
+            type: 'rgb',
+            rood: rood,
+            groen: groen,
+            blauw: blauw
+        };
+
+        const nieuwIngredient = {
+            mengtijd: mengtijd,
+            mengsnelheid: mengsnelheid,
+            kleur: kleur,
+            structuur: structuur,
+            id: Date.now()
+        };
+
+        // Maak een visuele representatie van het ingrediënt
+        const ingredientElement = creëerIngredientElement(nieuwIngredient);
+
+        ingredientenLijstContainer.appendChild(ingredientElement);
+
+        ingredientFormulier.reset();
+        ingredientFormulier.style.display = 'none';
+        nieuwIngredientKnop.style.display = 'block';
+    });
+
+    function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw){
+        const mengtijd = parseInt(mengtijdInput.value);
+        const mengsnelheid = parseInt(mengsnelheidInput.value);
+        const structuur = structuurInput.value;
 
         let heeftFouten = false;
         let foutmelding = "De volgende velden zijn verplicht en moeten correct ingevuld zijn:\n";
 
-        // 3. Valideer de velden
         if (isNaN(mengtijd) || mengtijd <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengtijd (moet een getal groter dan 0 zijn)\n";
@@ -83,43 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(foutmelding);
             return;
         }
-
-        // 4. Maak een ingrediënt object (alleen als er GEEN fouten zijn)
-        const kleur = {
-            type: 'rgb',
-            rood: rood,
-            groen: groen,
-            blauw: blauw
-        };
-
-        const nieuwIngredient = {
-            mengtijd: mengtijd,
-            mengsnelheid: mengsnelheid,
-            kleur: kleur,
-            structuur: structuur
-        };
-
-        // 5. Maak een visuele representatie van het ingrediënt
-        const ingredientElement = document.createElement('div');
-        ingredientElement.classList.add('ingrediënt-voorbeeld');
-        ingredientElement.title = `Mengtijd: ${mengtijd}ms, Mengsnelheid: ${mengsnelheid}, Structuur: ${structuur}`;
-        ingredientElement.style.backgroundColor = `rgb(${nieuwIngredient.kleur.rood}, ${nieuwIngredient.kleur.groen}, ${nieuwIngredient.kleur.blauw})`;
-
-        if (nieuwIngredient.structuur === 'korrel') {
-            ingredientElement.style.borderStyle = 'dotted';
-        } else if (nieuwIngredient.structuur === 'grove-korrel') {
-            ingredientElement.style.borderStyle = 'dashed';
-            ingredientElement.style.borderWidth = '2px';
-        } else if (nieuwIngredient.structuur === 'slijmerig') {
-            ingredientElement.style.borderRadius = '50%';
-        }
-
-        ingredientenLijstContainer.appendChild(ingredientElement);
-
-        ingredientFormulier.reset();
-        ingredientFormulier.style.display = 'none';
-        nieuwIngredientKnop.style.display = 'block';
-    });
+    }
 
     function markeerFoutiefVeld(veld) {
         veld.classList.add('fout-veld');
@@ -132,10 +124,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function creëerIngredientElement(ingredientData) {
+        // Maak een visuele representatie van het ingrediënt
+        const ingredientElement = document.createElement('div');
+        ingredientElement.classList.add('ingrediënt-voorbeeld');
+        ingredientElement.title = `Mengtijd: ${ingredientData.mengtijd}ms, Mengsnelheid: ${ingredientData.mengsnelheid}, Structuur: ${ingredientData.structuur}`;
+        ingredientElement.style.backgroundColor = `rgb(${ingredientData.kleur.rood}, ${ingredientData.kleur.groen}, ${ingredientData.kleur.blauw})`;
+    
+        if (ingredientData.structuur === 'korrel') {
+            ingredientElement.style.borderStyle = 'dotted';
+        } else if (ingredientData.structuur === 'grove-korrel') {
+            ingredientElement.style.borderStyle = 'dashed';
+            ingredientElement.style.borderWidth = '2px';
+        } else if (ingredientData.structuur === 'slijmerig') {
+            ingredientElement.style.borderRadius = '50%';
+        }
+    
+        ingredientElement.dataset.ingredientId = ingredientData.id;
+        ingredientElement.draggable = true;
+    
+        ingredientElement.addEventListener('dragstart', (event) => {
+            const ingredientId = ingredientElement.dataset.ingredientId;
+            event.dataTransfer.setData('text/plain', ingredientId);
+        });
+    
+        return ingredientElement;
+    }
+
     nieuwePotKnopHal1.addEventListener('click', () => {
         const potElement = document.createElement('div');
         potElement.classList.add('pot-voorbeeld');
         potElement.title = `Lege pot`;
+
+        potElement.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+        potElement.addEventListener('drop', (event) => {
+            event.preventDefault();
+            // **Nieuwe code: Haal nu het ingredient ID op uit de dataTransfer - START**
+            const ingredientId = event.dataTransfer.getData('text/plain'); // Haal het ingredient ID op uit de dataTransfer
+            // **Nieuwe code: Haal nu het ingredient ID op uit de dataTransfer - EINDE**
+
+            if (ingredientId) { // Controleer of er een ingredientId is meegegeven (voor de zekerheid)
+                // **Nieuwe code: Zoek het ORIGINELE ingredient element op basis van het ingredientId en data-attribuut - START**
+                const ingredientElementOrigineel = document.querySelector(`.ingrediënt-voorbeeld[data-ingredient-id="${ingredientId}"]`); // Zoek ingredient element met de matching data-ingredient-id
+                // **Nieuwe code: Zoek het ORIGINELE ingredient element op basis van het ingredientId en data-attribuut - EINDE**
+
+
+                if (ingredientElementOrigineel) {
+                    // **Gebruik nu weer Klonen en voeg de KLOON toe aan de pot - START**
+                    const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true); // Kloon het ingredient element
+                    potElement.appendChild(ingredientElementKloon); // Voeg de KLOON toe aan de pot
+                    alert(`Ingredient met ID ${ingredientId} gekloond en in pot gedropt!`); // Update test alert met ID
+                    // **Gebruik nu weer Klonen en voeg de KLOON toe aan de pot - EINDE**
+
+                } else {
+                    alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
+                }
+
+            } else {
+                alert('Fout: Geen ingredient ID ontvangen in dataTransfer!'); // Foutmelding als er geen ID is
+            }
+        });
 
         pottenHal1Container.appendChild(potElement);
     });
@@ -144,6 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const potElement = document.createElement('div');
         potElement.classList.add('pot-voorbeeld');
         potElement.title = `Lege pot`;
+
+
 
         pottenHal2Container.appendChild(potElement);
     });
