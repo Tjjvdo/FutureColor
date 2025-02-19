@@ -34,8 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const rood = parseInt(rgbRoodInput.value);
         const groen = parseInt(rgbGroenInput.value);
         const blauw = parseInt(rgbBlauwInput.value);
+        const mengtijd = parseInt(mengtijdInput.value);
+        const mengsnelheid = parseInt(mengsnelheidInput.value);
+        const structuur = structuurInput.value;
 
-        valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw);
+        valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur);
 
         // Maak een ingrediënt object (alleen als er GEEN fouten zijn)
         const kleur = {
@@ -63,11 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nieuwIngredientKnop.style.display = 'block';
     });
 
-    function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw){
-        const mengtijd = parseInt(mengtijdInput.value);
-        const mengsnelheid = parseInt(mengsnelheidInput.value);
-        const structuur = structuurInput.value;
-
+    function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur){
         let heeftFouten = false;
         let foutmelding = "De volgende velden zijn verplicht en moeten correct ingevuld zijn:\n";
 
@@ -131,6 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ingredientElement.title = `Mengtijd: ${ingredientData.mengtijd}ms, Mengsnelheid: ${ingredientData.mengsnelheid}, Structuur: ${ingredientData.structuur}`;
         ingredientElement.style.backgroundColor = `rgb(${ingredientData.kleur.rood}, ${ingredientData.kleur.groen}, ${ingredientData.kleur.blauw})`;
     
+        console.log(ingredientData.structuur);
+        console.log(ingredientData.mengsnelheid);
+        console.log(ingredientData.mengtijd);
+
         if (ingredientData.structuur === 'korrel') {
             ingredientElement.style.borderStyle = 'dotted';
         } else if (ingredientData.structuur === 'grove-korrel') {
@@ -138,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ingredientElement.style.borderWidth = '2px';
         } else if (ingredientData.structuur === 'slijmerig') {
             ingredientElement.style.borderRadius = '50%';
+            console.log("Hij komt in Slijmerig");
         }
     
         ingredientElement.dataset.ingredientId = ingredientData.id;
