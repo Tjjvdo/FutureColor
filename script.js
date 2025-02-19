@@ -171,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ingredientElementOrigineel = document.querySelector(`.ingrediënt-voorbeeld[data-ingredient-id="${ingredientId}"]`); // Zoek ingredient element met de matching data-ingredient-id
                 // **Nieuwe code: Zoek het ORIGINELE ingredient element op basis van het ingredientId en data-attribuut - EINDE**
 
-
                 if (ingredientElementOrigineel) {
                     // **Gebruik nu weer Klonen en voeg de KLOON toe aan de pot - START**
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true); // Kloon het ingredient element
@@ -195,8 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const potElement = document.createElement('div');
         potElement.classList.add('pot-voorbeeld');
         potElement.title = `Lege pot`;
-
-
 
         pottenHal2Container.appendChild(potElement);
     });
