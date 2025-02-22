@@ -38,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const mengsnelheid = parseInt(mengsnelheidInput.value);
         const structuur = structuurInput.value;
 
-        valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur);
+        if (valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur)) {
+            return;
+        }
 
         // Maak een ingrediënt object (alleen als er GEEN fouten zijn)
         const kleur = {
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nieuwIngredientKnop.style.display = 'block';
     });
 
-    function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, structuurInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur){
+    function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur){
         let heeftFouten = false;
         let foutmelding = "De volgende velden zijn verplicht en moeten correct ingevuld zijn:\n";
 
@@ -107,8 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (heeftFouten) {
-            alert(foutmelding);
-            return;
+            return true;
         }
     }
 
@@ -130,10 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ingredientElement.title = `Mengtijd: ${ingredientData.mengtijd}ms, Mengsnelheid: ${ingredientData.mengsnelheid}, Structuur: ${ingredientData.structuur}`;
         ingredientElement.style.backgroundColor = `rgb(${ingredientData.kleur.rood}, ${ingredientData.kleur.groen}, ${ingredientData.kleur.blauw})`;
     
-        console.log(ingredientData.structuur);
-        console.log(ingredientData.mengsnelheid);
-        console.log(ingredientData.mengtijd);
-
         if (ingredientData.structuur === 'korrel') {
             ingredientElement.style.borderStyle = 'dotted';
         } else if (ingredientData.structuur === 'grove-korrel') {
@@ -141,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ingredientElement.style.borderWidth = '2px';
         } else if (ingredientData.structuur === 'slijmerig') {
             ingredientElement.style.borderRadius = '50%';
-            console.log("Hij komt in Slijmerig");
         }
     
         ingredientElement.dataset.ingredientId = ingredientData.id;
@@ -166,21 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         potElement.addEventListener('drop', (event) => {
             event.preventDefault();
-            // **Nieuwe code: Haal nu het ingredient ID op uit de dataTransfer - START**
             const ingredientId = event.dataTransfer.getData('text/plain'); // Haal het ingredient ID op uit de dataTransfer
-            // **Nieuwe code: Haal nu het ingredient ID op uit de dataTransfer - EINDE**
 
             if (ingredientId) { // Controleer of er een ingredientId is meegegeven (voor de zekerheid)
-                // **Nieuwe code: Zoek het ORIGINELE ingredient element op basis van het ingredientId en data-attribuut - START**
                 const ingredientElementOrigineel = document.querySelector(`.ingrediënt-voorbeeld[data-ingredient-id="${ingredientId}"]`); // Zoek ingredient element met de matching data-ingredient-id
-                // **Nieuwe code: Zoek het ORIGINELE ingredient element op basis van het ingredientId en data-attribuut - EINDE**
 
                 if (ingredientElementOrigineel) {
-                    // **Gebruik nu weer Klonen en voeg de KLOON toe aan de pot - START**
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true); // Kloon het ingredient element
                     potElement.appendChild(ingredientElementKloon); // Voeg de KLOON toe aan de pot
-                    alert(`Ingredient met ID ${ingredientId} gekloond en in pot gedropt!`); // Update test alert met ID
-                    // **Gebruik nu weer Klonen en voeg de KLOON toe aan de pot - EINDE**
 
                 } else {
                     alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
