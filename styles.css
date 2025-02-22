@@ -1,0 +1,108 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Volledige viewport hoogte */
+}
+
+header {
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+nav {
+    display: flex;
+}
+
+nav button {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+nav button.active {
+    background-color: #d0d0d0;
+}
+
+main {
+    display: flex;
+    flex: 1; /* Laat main de beschikbare ruimte innemen */
+}
+
+#ingredienten-beheer {
+    width: 250px;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#potten-mengmachines-hal-1, #potten-mengmachines-hal-2, #kleurentest-pagina {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    display: none; /* Standaard verbergen, Javascript nodig om te tonen */
+}
+
+#potten-mengmachines-hal-1.active, #potten-mengmachines-hal-2.active, #kleurentest-pagina.active {
+    display: block; /* Tonen met 'active' class */
+}
+
+#weer-status {
+    width: 200px;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.ingrediënt-voorbeeld {
+    width: 40px;
+    height: 40px;
+    background-color: lightblue; /* Voorbeeldkleur */
+    border: 1px solid #999;
+    margin: 5px;
+    display: inline-block;
+}
+
+.pot-voorbeeld {
+    width: 60px;
+    height: 80px;
+    border: 2px solid black;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.mengmachine-voorbeeld {
+    width: 100px;
+    height: 120px;
+    background-color: #e0e0e0;
+    border: 2px dashed #777;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.kleur-vierkantje {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin: 2px;
+}
+
+.kleur-vierkantje.gevuld {
+    background-color: lightcoral; /* Voorbeeld gevulde kleur */
+}
+
+.fout-veld {
+    border: 2px solid red;
+    background-color: #ffeeee;
+}
