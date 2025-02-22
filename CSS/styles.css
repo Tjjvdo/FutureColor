@@ -62,7 +62,13 @@ main {
     background-color: #f9f9f9;
 }
 
-.ingrediënt-voorbeeld {
+#potten-hal-1, #potten-hal-2 { 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ingrediënt {
     width: 40px;
     height: 40px;
     background-color: lightblue; /* Voorbeeldkleur */
@@ -71,13 +77,20 @@ main {
     display: inline-block;
 }
 
-.pot-voorbeeld {
+.pot {
     width: 60px;
     height: 80px;
     border: 2px solid black;
     margin: 10px;
-    display: inline-block;
-    vertical-align: bottom;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    .ingrediënt{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
 }
 
 .mengmachine-voorbeeld {
