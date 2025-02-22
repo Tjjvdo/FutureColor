@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const pottenHal1Container = document.getElementById('potten-hal-1');
     const nieuwePotKnopHal2 = document.getElementById('nieuwe-pot-knop-hal-2');
     const pottenHal2Container = document.getElementById('potten-hal-2');
+    const ingredientInfoGebied = document.getElementById('ingredient-info-gebied');
+    const ingredientInfoTekstElement = document.getElementById('ingredient-info-tekst');
 
     nieuwIngredientKnop.addEventListener('click', () => {
         ingredientFormulier.style.display = 'block';
@@ -156,6 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         potElement.classList.add('pot-voorbeeld');
         potElement.title = `Lege pot`;
 
+        potElement.ingredienten = [];
+
         potElement.addEventListener('dragover', (event) => {
             event.preventDefault();
         });
@@ -166,18 +170,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (ingredientId) { // Controleer of er een ingredientId is meegegeven (voor de zekerheid)
                 const ingredientElementOrigineel = document.querySelector(`.ingrediënt-voorbeeld[data-ingredient-id="${ingredientId}"]`); // Zoek ingredient element met de matching data-ingredient-id
-
+                
                 if (ingredientElementOrigineel) {
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true); // Kloon het ingredient element
                     potElement.appendChild(ingredientElementKloon); // Voeg de KLOON toe aan de pot
+                    potElement.title = "Pot met ingrediënten";
 
+                    ingredientElementKloon.style.display = 'none';
+
+                    const ingredientKleur = ingredientElementOrigineel.style.backgroundColor;
+                    potElement.ingredienten.push(ingredientKleur);
+                    updatePotAchtergrond(potElement);
                 } else {
                     alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
                 }
-
             } else {
                 alert('Fout: Geen ingredient ID ontvangen in dataTransfer!'); // Foutmelding als er geen ID is
             }
+        });
+
+        potElement.addEventListener('click', () => {
+            const ingredientKleuren = potElement.ingredienten; // Haal de array met ingredient kleuren op
+            let infoString = "Ingrediënten in deze pot:\n"; // Start van de info string
+
+            if (ingredientKleuren.length === 0) {
+                infoString += "- Leeg"; // Als er geen ingredienten zijn
+            } else {
+                for (let i = 0; i < ingredientKleuren.length; i++) {
+                    const kleur = ingredientKleuren[i];
+                    infoString += `- Ingrediënt ${i + 1}: RGB(${kleur})\n`; // Voeg kleur info toe voor elk ingredient
+                }
+            }
+
+            ingredientInfoTekstElement.innerHTML = infoString.replace(/\n/g, '<br>'); // Zet de infoString in de paragraaf, vervang \n met <br> voor HTML weergave
+            ingredientInfoGebied.style.display = 'block'; // Zorg dat het info gebied zichtbaar is (voor het geval dat we het ooit zouden verbergen met CSS)            
         });
 
         pottenHal1Container.appendChild(potElement);
@@ -190,4 +216,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         pottenHal2Container.appendChild(potElement);
     });
+
+    function updatePotAchtergrond(potElement) {
+        const ingredientKleuren = potElement.ingredienten; // Haal de array van ingredient kleuren op
+    
+        if (ingredientKleuren.length === 0) {
+            // Lege pot: zet standaard achtergrond (lichtgrijs, of wat je wilt)
+            potElement.style.backgroundColor = 'lightgray'; // Of een andere standaard kleur voor lege pot
+            potElement.style.backgroundImage = 'none'; // Verwijder eventuele background image (gradient)
+            return; // Stop hier, er zijn geen ingredienten om weer te geven
+        }
+    
+        if (ingredientKleuren.length === 1) {
+            // 1 ingredient: simpele achtergrondkleur
+            potElement.style.backgroundColor = ingredientKleuren[0];
+            potElement.style.backgroundImage = 'none'; // Verwijder eventuele background image (gradient)
+            return; // Stop hier
+        }
+    
+        // Meer dan 1 ingredient: maak een linear-gradient achtergrond
+        let gradientString = 'linear-gradient(to bottom'; // Start van de linear-gradient string
+    
+        const hoogtePerKleur = 100 / ingredientKleuren.length; // Bereken de hoogte per kleur in percentage
+    
+        for (let i = 0; i < ingredientKleuren.length; i++) {
+            const kleur = ingredientKleuren[i];
+            const startPercentage = i * hoogtePerKleur; // Startpositie van deze kleur in de gradient
+            const endPercentage = (i + 1) * hoogtePerKleur; // Eindpositie van deze kleur
+    
+            gradientString += `, ${kleur} ${startPercentage}% ${endPercentage}%`; // Voeg kleurstop toe aan de gradient string
+        }
+    
+        gradientString += ')'; // Sluit de linear-gradient string af
+    
+        potElement.style.backgroundImage = gradientString; // Stel de backgroundImage in met de dynamische gradient
+        potElement.style.backgroundColor = 'transparent'; //  Zorg ervoor dat backgroundColor niet in de weg zit van de gradient (zet op transparent)
+    }
 });
