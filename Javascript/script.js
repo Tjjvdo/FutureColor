@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nieuweMengmachineKnopHal2 = document.getElementById('nieuwe-mengmachine-knop-hal-2');
     const mengmachinesHal2Container = document.getElementById('mengmachines-hal-2');
     const gemengdePottenHal1 = document.getElementById('gemengde-potten-hal-1');
+    const gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
 
     nieuwIngredientKnop.addEventListener('click', () => {
         ingredientFormulier.style.display = 'block';
@@ -157,6 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     nieuwePotKnopHal1.addEventListener('click', () => {
+        const potElement = maakNieuwePot();
+
+        pottenHal1Container.appendChild(potElement);
+    });
+
+    nieuwePotKnopHal2.addEventListener('click', () => {
+        const potElement = maakNieuwePot();
+
+        pottenHal2Container.appendChild(potElement);
+    });
+
+    function maakNieuwePot() {
         const potElement = document.createElement('div');
         potElement.classList.add('pot');
         potElement.title = `Lege pot`;
@@ -200,53 +213,24 @@ document.addEventListener('DOMContentLoaded', () => {
             event.dataTransfer.setData('text/plain', potId);
         });
 
-        pottenHal1Container.appendChild(potElement);
-    });
-
-    nieuwePotKnopHal2.addEventListener('click', () => {
-        const potElement = document.createElement('div');
-        potElement.classList.add('pot');
-        potElement.title = `Lege pot`;
-
-        potElement.addEventListener('dragover', (event) => {
-            event.preventDefault();
-        });
-
-        potElement.addEventListener('drop', (event) => {
-            event.preventDefault();
-            const ingredientId = event.dataTransfer.getData('text/plain');
-
-            if (ingredientId) {
-                const ingredientElementOrigineel = document.querySelector(`.ingrediënt[data-ingredient-id="${ingredientId}"]`);
-
-                if (ingredientElementOrigineel) {
-                    const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
-                    potElement.appendChild(ingredientElementKloon);
-
-                } else {
-                    alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
-                }
-
-            } else {
-                alert('Fout: Geen ingredient ID ontvangen in dataTransfer!');
-            }
-        });
-
-        potElement.dataset.potId = Date.now();
-        potElement.draggable = true;
-
-        potElement.addEventListener('dragstart', (event) => {
-            const potId = potElement.dataset.potId;
-            event.dataTransfer.setData('text/plain', potId);
-        });
-
-        pottenHal2Container.appendChild(potElement);
-    });
+        return potElement;
+    }
 
     nieuweMengmachineKnopHal1.addEventListener('click', () => {
+        const machineContainer = maakNieuweMengmachine(gemengdePottenHal1);
+
+        mengmachinesHal1Container.appendChild(machineContainer);
+    });
+
+    nieuweMengmachineKnopHal2.addEventListener('click', () => {
+        const machineContainer = maakNieuweMengmachine(gemengdePottenHal2);
+
+        mengmachinesHal2Container.appendChild(machineContainer);
+    });
+
+    function maakNieuweMengmachine(gemengdePottenHal) {
         const machineContainer = document.createElement('div');
         machineContainer.classList.add('machine-container');
-        mengmachinesHal1Container.appendChild(machineContainer);
 
         const mengmachineElement = document.createElement('div');
         mengmachineElement.classList.add('mengmachine');
@@ -266,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // potElementOrigineel is de pot die in deze machine zit, hier moet je wel nog wat informatie uit de pot zelf halen.
 
             if (potElementOrigineel) {
-                gemengdePottenHal1.appendChild(potElementOrigineel);
+                gemengdePottenHal.appendChild(potElementOrigineel);
                 potElementOrigineel.dataset.potStatus = 'in-hal';
                 mengmachineElement.dataset.mixerStatus = 'idle';
             }
@@ -300,34 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Fout: Geen pot ID ontvangen in dataTransfer!');
             }
         });
-    });
 
-    nieuweMengmachineKnopHal2.addEventListener('click', () => {
-        const mengmachineElement = document.createElement('div');
-        mengmachineElement.classList.add('mengmachine');
-        mengmachineElement.title = `Lege mengmachine`;
-
-        mengmachinesHal2Container.appendChild(mengmachineElement);
-
-        mengmachineElement.addEventListener('dragover', (event) => {
-            event.preventDefault();
-        });
-
-        mengmachineElement.addEventListener('drop', (event) => {
-            event.preventDefault();
-            const potId = event.dataTransfer.getData('text/plain');
-
-            if (potId) {
-                const potElementOrigineel = document.querySelector(`.pot[data-pot-id="${potId}"]`);
-
-                if (potElementOrigineel) {
-                    mengmachineElement.appendChild(potElementOrigineel);
-                } else {
-                    alert(`Fout: Origineel pot element met ID ${potId} NIET gevonden!`);
-                }
-            } else {
-                alert('Fout: Geen pot ID ontvangen in dataTransfer!');
-            }
-        });
-    });
+        return machineContainer;
+    }
 });
