@@ -3,7 +3,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Volledige viewport hoogte */
+    height: 100vh;
 }
 
 header {
@@ -33,7 +33,7 @@ nav button.active {
 
 main {
     display: flex;
-    flex: 1; /* Laat main de beschikbare ruimte innemen */
+    flex: 1;
 }
 
 #ingredienten-beheer {
@@ -47,11 +47,11 @@ main {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
-    display: none; /* Standaard verbergen, Javascript nodig om te tonen */
+    display: none;
 }
 
 #potten-mengmachines-hal-1.active, #potten-mengmachines-hal-2.active, #kleurentest-pagina.active {
-    display: block; /* Tonen met 'active' class */
+    display: block;
 }
 
 #weer-status {
@@ -62,32 +62,39 @@ main {
     background-color: #f9f9f9;
 }
 
-.ingrediënt-voorbeeld {
+#potten-hal-1, #potten-hal-2, #gemengde-potten-hal-1, #gemengde-potten-hal-2 { 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#nieuwe-pot-knop-hal-1, #nieuwe-pot-knop-hal-2 {
+    margin-bottom: 15px;
+}
+
+.ingrediënt {
     width: 40px;
     height: 40px;
-    background-color: lightblue; /* Voorbeeldkleur */
+    background-color: lightblue;
     border: 1px solid #999;
     margin: 5px;
     display: inline-block;
 }
 
-.pot-voorbeeld {
+.pot {
     width: 60px;
     height: 80px;
     border: 2px solid black;
     margin: 10px;
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-.mengmachine-voorbeeld {
-    width: 100px;
-    height: 120px;
-    background-color: #e0e0e0;
-    border: 2px dashed #777;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: bottom;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    .ingrediënt{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
 }
 
 .kleur-vierkantje {
@@ -99,10 +106,61 @@ main {
 }
 
 .kleur-vierkantje.gevuld {
-    background-color: lightcoral; /* Voorbeeld gevulde kleur */
+    background-color: lightcoral;
 }
 
 .fout-veld {
     border: 2px solid red;
     background-color: #ffeeee;
+}
+
+#mengmachines-hal-1, #mengmachines-hal-2 { 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.machine-container {
+    width: 100px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.mengmachine {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #555; /* Donkergrijze, solide rand */
+    border-radius: 50%; /* Maak ze rond of oval */
+    margin: 10px;
+    display: inline-flex; /* Gebruik flexbox voor interne layout */
+    flex-direction: column; /* Inhoud verticaal stapelen */
+    justify-content: center; /* Inhoud verticaal centreren */
+    align-items: center; /* Inhoud horizontaal centreren */
+    background-color: #e0e0e0; /* Lichtere grijze achtergrond */
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2); /* Subtiele schaduw voor diepte */
+    position: relative; /* Voor positionering van de knop */
+}
+
+.mix-knop { /* Style de "Mix!" knop ONDER de mengmachine */
+    margin-top: 5px; /* Beetje ruimte boven de knop */
+    padding: 8px 15px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    display: block; /* Zorg dat knop volledige breedte van de container inneemt, en op een nieuwe regel begint */
+    margin-left: auto; /* Centreer de knop horizontaal in de container */
+    margin-right: auto;
+    text-align: center; /* Centreer de tekst in de knop */
+    width: 70%; /* Beperk de breedte van de knop, zodat het niet de volledige containerbreedte is */
+}
+
+.mix-knop:hover { /* Hover effect voor de knop */
+    background-color: #e8e8e8;
+}
+
+.mix-knop:active { /* Actieve (klik) effect voor de knop */
+    background-color: #d0d0d0;
 }
