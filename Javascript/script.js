@@ -3,6 +3,70 @@ import Pot from './pot.js';
 import Mengmachine from './mengmachine.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    const MengHal1Knop = document.getElementById('MengHal1');
+    const MengHal2Knop = document.getElementById('MengHal2');
+    const KleurenTestKnop = document.getElementById('KleurenTest');
+    const Hal1 = document.getElementById('hal-1');
+    const Hal2 = document.getElementById('hal-2');
+    const KleurenTest = document.getElementById('kleurentest-pagina');
+
+    MengHal1Knop.addEventListener('click', () => {
+        MengHal1Knop.classList.add('active');
+        Hal1.classList.add('active');
+
+        if(MengHal2Knop.classList.contains('active')){
+            MengHal2Knop.classList.remove('active');
+        }
+        if(Hal2.classList.contains('active')){
+            Hal2.classList.remove('active');
+        }
+
+        if(KleurenTestKnop.classList.contains('active')){
+            KleurenTestKnop.classList.remove('active');
+        }
+        if(KleurenTest.classList.contains('active')){
+            KleurenTest.classList.remove('active');
+        }
+    });
+
+    MengHal2Knop.addEventListener('click', () => {
+        MengHal2Knop.classList.add('active');
+        Hal2.classList.add('active');
+
+        if(MengHal1Knop.classList.contains('active')){
+            MengHal1Knop.classList.remove('active');
+        }
+        if(Hal1.classList.contains('active')){
+            Hal1.classList.remove('active');
+        }
+
+        if(KleurenTestKnop.classList.contains('active')){
+            KleurenTestKnop.classList.remove('active');
+        }
+        if(KleurenTest.classList.contains('active')){
+            KleurenTest.classList.remove('active');
+        }
+    });
+
+    KleurenTestKnop.addEventListener('click', () => {
+        KleurenTestKnop.classList.add('active');
+        KleurenTest.classList.add('active');
+
+        if(MengHal1Knop.classList.contains('active')){
+            MengHal1Knop.classList.remove('active');
+        }
+        if(Hal1.classList.contains('active')){
+            Hal1.classList.remove('active');
+        }
+
+        if(MengHal2Knop.classList.contains('active')){
+            MengHal2Knop.classList.remove('active');
+        }
+        if(Hal2.classList.contains('active')){
+            Hal2.classList.remove('active');
+        }
+    });
+
     const nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
     const ingredientFormulier = document.getElementById('ingredient-formulier');
     const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');

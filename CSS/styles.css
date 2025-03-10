@@ -43,14 +43,14 @@ main {
     box-sizing: border-box;
 }
 
-#potten-mengmachines-hal-1, #potten-mengmachines-hal-2, #kleurentest-pagina {
+#hal-1, #hal-2, #kleurentest-pagina {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
     display: none;
 }
 
-#potten-mengmachines-hal-1.active, #potten-mengmachines-hal-2.active, #kleurentest-pagina.active {
+#hal-1.active, #hal-2.active, #kleurentest-pagina.active {
     display: block;
 }
 
