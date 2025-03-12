@@ -212,9 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // weer & status
-    const weersinvloedenDiv = document.getElementById("weersinvloeden");
-    const invloedText = document.getElementById("invloed-text");
-    const invloedenDiv = document.getElementById("invloeden");
     const invloedenUl = document.getElementById("invloedenLijst");
     const temperatuurInput = document.getElementById("temperatuur");
     const weerstypeSelect = document.getElementById("weerstype");
