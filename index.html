@@ -115,16 +115,23 @@
             <aside id="weer-status">
                 <h2>Weer & Status</h2>
                 <div id="actueel-weer">
-                    <h3>Actueel Weer (Placeholder):</h3>
-                    <p>Weer icoon, Temperatuur, etc.</p>
+                    <label for="temperatuur"><strong>Temperatuur:</strong></label>
+                    <input type="number" id="temperatuur" step=".1" min="-30" max="60" value="0"><p>min: -30 & max: 60</p>
+                    <br>
+                    <label><strong>Weerstype:</strong></label><br>
+                    <select id="weerstype">
+                        <option value="zonnig">zonnig</option>
+                        <option value="regen">regen</option>
+                        <option value="sneeuw">sneeuw</option>
+                    </select>
                 </div>
                 <div id="weersinvloeden">
-                    <h3>Weersinvloeden (Placeholder):</h3>
-                    <p>Status van weersinvloeden op mengtijd/machines.</p>
-                </div>
-                <div id="machine-status">
-                    <h3>Machine Status (Placeholder):</h3>
-                    <p>Status van de mengmachines in actieve hal.</p>
+                    <h3>Weersinvloeden:</h3>
+                    <div id="invloeden">
+                        <ul id="invloedenLijst">
+
+                        </ul>
+                    </div>
                 </div>
             </aside>
         </main>
