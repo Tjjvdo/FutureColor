@@ -1,4 +1,72 @@
+import Ingredient from './ingredient.js';
+import Pot from './pot.js';
+import Mengmachine from './mengmachine.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+    const MengHal1Knop = document.getElementById('MengHal1');
+    const MengHal2Knop = document.getElementById('MengHal2');
+    const KleurenTestKnop = document.getElementById('KleurenTest');
+    const Hal1 = document.getElementById('hal-1');
+    const Hal2 = document.getElementById('hal-2');
+    const KleurenTest = document.getElementById('kleurentest-pagina');
+
+    MengHal1Knop.addEventListener('click', () => {
+        MengHal1Knop.classList.add('active');
+        Hal1.classList.add('active');
+
+        if(MengHal2Knop.classList.contains('active')){
+            MengHal2Knop.classList.remove('active');
+        }
+        if(Hal2.classList.contains('active')){
+            Hal2.classList.remove('active');
+        }
+
+        if(KleurenTestKnop.classList.contains('active')){
+            KleurenTestKnop.classList.remove('active');
+        }
+        if(KleurenTest.classList.contains('active')){
+            KleurenTest.classList.remove('active');
+        }
+    });
+
+    MengHal2Knop.addEventListener('click', () => {
+        MengHal2Knop.classList.add('active');
+        Hal2.classList.add('active');
+
+        if(MengHal1Knop.classList.contains('active')){
+            MengHal1Knop.classList.remove('active');
+        }
+        if(Hal1.classList.contains('active')){
+            Hal1.classList.remove('active');
+        }
+
+        if(KleurenTestKnop.classList.contains('active')){
+            KleurenTestKnop.classList.remove('active');
+        }
+        if(KleurenTest.classList.contains('active')){
+            KleurenTest.classList.remove('active');
+        }
+    });
+
+    KleurenTestKnop.addEventListener('click', () => {
+        KleurenTestKnop.classList.add('active');
+        KleurenTest.classList.add('active');
+
+        if(MengHal1Knop.classList.contains('active')){
+            MengHal1Knop.classList.remove('active');
+        }
+        if(Hal1.classList.contains('active')){
+            Hal1.classList.remove('active');
+        }
+
+        if(MengHal2Knop.classList.contains('active')){
+            MengHal2Knop.classList.remove('active');
+        }
+        if(Hal2.classList.contains('active')){
+            Hal2.classList.remove('active');
+        }
+    });
+
     const nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
     const ingredientFormulier = document.getElementById('ingredient-formulier');
     const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
@@ -26,49 +94,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ingredientToevoegenKnop.addEventListener('click', () => {
-        // Reset eventuele eerdere foutmeldingen (optioneel, maar netjes)
         resetFoutmeldingen();
-
-        // Lees de waarden uit het formulier
+    
         const mengtijdInput = document.getElementById('mengtijd');
         const mengsnelheidInput = document.getElementById('mengsnelheid');
         const rgbRoodInput = document.getElementById('rgb-rood');
         const rgbGroenInput = document.getElementById('rgb-groen');
         const rgbBlauwInput = document.getElementById('rgb-blauw');
         const structuurInput = document.getElementById('structuur');
-
+    
         const rood = parseInt(rgbRoodInput.value);
         const groen = parseInt(rgbGroenInput.value);
         const blauw = parseInt(rgbBlauwInput.value);
         const mengtijd = parseInt(mengtijdInput.value);
         const mengsnelheid = parseInt(mengsnelheidInput.value);
         const structuur = structuurInput.value;
-
+    
         if (valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur)) {
             return;
         }
-
-        // Maak een ingrediënt object (alleen als er GEEN fouten zijn)
-        const kleur = {
-            type: 'rgb',
-            rood: rood,
-            groen: groen,
-            blauw: blauw
-        };
-
-        const nieuwIngredient = {
-            mengtijd: mengtijd,
-            mengsnelheid: mengsnelheid,
-            kleur: kleur,
-            structuur: structuur,
-            id: Date.now()
-        };
-
-        // Maak een visuele representatie van het ingrediënt
-        const ingredientElement = creëerIngredientElement(nieuwIngredient);
-
+    
+        const kleur = { type: 'rgb', rood, groen, blauw };
+        const nieuwIngredient = new Ingredient(mengtijd, mengsnelheid, kleur, structuur);
+        
+        const ingredientElement = nieuwIngredient.creëerElement();
         ingredientenLijstContainer.appendChild(ingredientElement);
-
+    
         ingredientFormulier.reset();
         ingredientFormulier.style.display = 'none';
         nieuwIngredientKnop.style.display = 'block';
@@ -130,161 +181,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function creëerIngredientElement(ingredientData) {
-        // Maak een visuele representatie van het ingrediënt
-        const ingredientElement = document.createElement('div');
-        ingredientElement.classList.add('ingrediënt');
-        ingredientElement.title = `Mengtijd: ${ingredientData.mengtijd}ms, Mengsnelheid: ${ingredientData.mengsnelheid}, Structuur: ${ingredientData.structuur}`;
-        ingredientElement.style.backgroundColor = `rgb(${ingredientData.kleur.rood}, ${ingredientData.kleur.groen}, ${ingredientData.kleur.blauw})`;
-
-        if (ingredientData.structuur === 'korrel') {
-            ingredientElement.style.borderStyle = 'dotted';
-        } else if (ingredientData.structuur === 'grove-korrel') {
-            ingredientElement.style.borderStyle = 'dashed';
-            ingredientElement.style.borderWidth = '2px';
-        } else if (ingredientData.structuur === 'slijmerig') {
-            ingredientElement.style.borderRadius = '50%';
-        }
-
-        ingredientElement.dataset.ingredientId = ingredientData.id;
-        ingredientElement.draggable = true;
-
-        ingredientElement.addEventListener('dragstart', (event) => {
-            const ingredientId = ingredientElement.dataset.ingredientId;
-            event.dataTransfer.setData('text/plain', ingredientId);
-        });
-
-        return ingredientElement;
-    }
-
     nieuwePotKnopHal1.addEventListener('click', () => {
-        const potElement = maakNieuwePot();
+        const pot = new Pot();
+        const potElement = pot.getElement();
 
         pottenHal1Container.appendChild(potElement);
     });
 
     nieuwePotKnopHal2.addEventListener('click', () => {
-        const potElement = maakNieuwePot();
+        const pot = new Pot();
+        const potElement = pot.getElement();
 
         pottenHal2Container.appendChild(potElement);
     });
 
-    function maakNieuwePot() {
-        const potElement = document.createElement('div');
-        potElement.classList.add('pot');
-        potElement.title = `Lege pot`;
-        potElement.dataset.potStatus = 'in-hal';
-
-        potElement.addEventListener('dragover', (event) => {
-            event.preventDefault();
-        });
-
-        potElement.addEventListener('drop', (event) => {
-            event.preventDefault();
-
-            if (potElement.dataset.potStatus === 'in-mixer') {
-                return;
-            }
-
-            const ingredientId = event.dataTransfer.getData('text/plain');
-
-            if (ingredientId) {
-                const ingredientElementOrigineel = document.querySelector(`.ingrediënt[data-ingredient-id="${ingredientId}"]`);
-
-                if (ingredientElementOrigineel) {
-                    const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
-                    potElement.appendChild(ingredientElementKloon);
-
-                    ingredientElementKloon.draggable = false;
-                } else {
-                    alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
-                }
-
-            } else {
-                alert('Fout: Geen ingredient ID ontvangen in dataTransfer!');
-            }
-        });
-
-        potElement.dataset.potId = Date.now();
-        potElement.draggable = true;
-
-        potElement.addEventListener('dragstart', (event) => {
-            const potId = potElement.dataset.potId;
-            event.dataTransfer.setData('text/plain', potId);
-        });
-
-        return potElement;
-    }
-
     nieuweMengmachineKnopHal1.addEventListener('click', () => {
-        const machineContainer = maakNieuweMengmachine(gemengdePottenHal1);
-
+        const machine = new Mengmachine(gemengdePottenHal1);
+        const machineContainer = machine.getElement();
+    
         mengmachinesHal1Container.appendChild(machineContainer);
     });
-
+    
     nieuweMengmachineKnopHal2.addEventListener('click', () => {
-        const machineContainer = maakNieuweMengmachine(gemengdePottenHal2);
-
+        const machine = new Mengmachine(gemengdePottenHal2);
+        const machineContainer = machine.getElement();
+    
         mengmachinesHal2Container.appendChild(machineContainer);
     });
-
-    function maakNieuweMengmachine(gemengdePottenHal) {
-        const machineContainer = document.createElement('div');
-        machineContainer.classList.add('machine-container');
-
-        const mengmachineElement = document.createElement('div');
-        mengmachineElement.classList.add('mengmachine');
-        mengmachineElement.title = `Lege mengmachine`;
-        mengmachineElement.dataset.mixerStatus = 'idle';
-
-        machineContainer.appendChild(mengmachineElement);
-
-        const mixKnop = document.createElement('button');
-        mixKnop.textContent = 'Mix!';
-        mixKnop.classList.add('mix-knop');
-        machineContainer.appendChild(mixKnop);
-
-        mixKnop.addEventListener('click', () => {
-            const potElementOrigineel = mengmachineElement.querySelector('.pot');
-
-            // potElementOrigineel is de pot die in deze machine zit, hier moet je wel nog wat informatie uit de pot zelf halen.
-
-            if (potElementOrigineel) {
-                gemengdePottenHal.appendChild(potElementOrigineel);
-                potElementOrigineel.dataset.potStatus = 'in-hal';
-                mengmachineElement.dataset.mixerStatus = 'idle';
-            }
-        });
-
-        mengmachineElement.addEventListener('dragover', (event) => {
-            event.preventDefault();
-        });
-
-        mengmachineElement.addEventListener('drop', (event) => {
-            event.preventDefault();
-
-            if (mengmachineElement.dataset.mixerStatus === 'bezet') {
-                return;
-            }
-
-            const potId = event.dataTransfer.getData('text/plain');
-
-            if (potId) {
-                const potElementOrigineel = document.querySelector(`.pot[data-pot-id="${potId}"]`);
-
-                if (potElementOrigineel) {
-                    mengmachineElement.appendChild(potElementOrigineel);
-
-                    potElementOrigineel.dataset.potStatus = 'in-mixer';
-                    mengmachineElement.dataset.mixerStatus = 'bezet';
-                } else {
-                    alert(`Fout: Origineel pot element met ID ${potId} NIET gevonden!`);
-                }
-            } else {
-                alert('Fout: Geen pot ID ontvangen in dataTransfer!');
-            }
-        });
-
-        return machineContainer;
-    }
 });
