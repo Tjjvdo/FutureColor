@@ -62,7 +62,7 @@ main {
     background-color: #f9f9f9;
 }
 
-#potten-hal-1, #potten-hal-2, #gemengde-potten-hal-1, #gemengde-potten-hal-2 { 
+#potten-hal-1, #potten-hal-2, #gemengde-potten-hal-1, #gemengde-potten-hal-2, #kleur-grid { 
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -98,15 +98,14 @@ main {
 }
 
 .kleur-vierkantje {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
-    display: inline-block;
-    margin: 2px;
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    margin: 10px;
 }
 
-.kleur-vierkantje.gevuld {
-    background-color: lightcoral;
+#kleur-grid {
+    max-width: 520px;
 }
 
 .fout-veld {
@@ -131,36 +130,36 @@ main {
 .mengmachine {
     width: 80px;
     height: 80px;
-    border: 2px solid #555; /* Donkergrijze, solide rand */
-    border-radius: 50%; /* Maak ze rond of oval */
+    border: 2px solid #555;
+    border-radius: 50%;
     margin: 10px;
-    display: inline-flex; /* Gebruik flexbox voor interne layout */
-    flex-direction: column; /* Inhoud verticaal stapelen */
-    justify-content: center; /* Inhoud verticaal centreren */
-    align-items: center; /* Inhoud horizontaal centreren */
-    background-color: #e0e0e0; /* Lichtere grijze achtergrond */
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.2); /* Subtiele schaduw voor diepte */
-    position: relative; /* Voor positionering van de knop */
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0e0e0;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+    position: relative;
 }
 
-.mix-knop { /* Style de "Mix!" knop ONDER de mengmachine */
-    margin-top: 5px; /* Beetje ruimte boven de knop */
+.mix-knop {
+    margin-top: 5px;
     padding: 8px 15px;
     border: 1px solid #777;
     border-radius: 5px;
     background-color: #f8f8f8;
     cursor: pointer;
-    display: block; /* Zorg dat knop volledige breedte van de container inneemt, en op een nieuwe regel begint */
-    margin-left: auto; /* Centreer de knop horizontaal in de container */
+    display: block;
+    margin-left: auto;
     margin-right: auto;
-    text-align: center; /* Centreer de tekst in de knop */
-    width: 70%; /* Beperk de breedte van de knop, zodat het niet de volledige containerbreedte is */
+    text-align: center;
+    width: 70%;
 }
 
-.mix-knop:hover { /* Hover effect voor de knop */
+.mix-knop:hover {
     background-color: #e8e8e8;
 }
 
-.mix-knop:active { /* Actieve (klik) effect voor de knop */
+.mix-knop:active {
     background-color: #d0d0d0;
 }

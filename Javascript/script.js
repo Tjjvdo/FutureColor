@@ -1,6 +1,7 @@
 import Ingredient from './ingredient.js';
 import Pot from './pot.js';
 import Mengmachine from './mengmachine.js';
+import TestGrid from './testgrid.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const MengHal1Knop = document.getElementById('MengHal1');
@@ -82,6 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mengmachinesHal2Container = document.getElementById('mengmachines-hal-2');
     const gemengdePottenHal1 = document.getElementById('gemengde-potten-hal-1');
     const gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
+    const nieuweKleurenTestGridKnop = document.getElementById('nieuw-kleuren-test-grid-knop');
+    const kleurenGridContainer = document.getElementById('kleur-grid');
 
     nieuwIngredientKnop.addEventListener('click', () => {
         ingredientFormulier.style.display = 'block';
@@ -207,5 +210,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const machineContainer = machine.getElement();
     
         mengmachinesHal2Container.appendChild(machineContainer);
+    });
+
+    nieuweKleurenTestGridKnop.addEventListener('click', () => {
+        const gridGrote = 6;
+        const vierkantBreedte = 85;
+
+        const testGrid = new TestGrid(gridGrote);
+        let testGridVierkantjes = testGrid.getElementen();
+
+        kleurenGridContainer.innerHTML = '';
+        testGridVierkantjes.forEach(vierkantje => {
+            kleurenGridContainer.appendChild(vierkantje);
+        });
+
+        kleurenGridContainer.style.maxWidth = `${gridGrote * vierkantBreedte}px`;
     });
 });
