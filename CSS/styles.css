@@ -102,10 +102,19 @@ main {
     height: 60px;
     border: 2px solid black;
     margin: 10px;
+    .ingrediënt{
+        width: 96%;
+        height: 96%;
+        margin: 0;
+    }
 }
 
 #kleur-grid {
     max-width: 520px;
+}
+
+#nieuw-kleuren-test-grid-knop {
+    margin: 10px;
 }
 
 .fout-veld {

@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
     const nieuweKleurenTestGridKnop = document.getElementById('nieuw-kleuren-test-grid-knop');
     const kleurenGridContainer = document.getElementById('kleur-grid');
+    const gridGrootteInput = document.getElementById('grid-grootte-input');
 
     nieuwIngredientKnop.addEventListener('click', () => {
         ingredientFormulier.style.display = 'block';
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     nieuweKleurenTestGridKnop.addEventListener('click', () => {
-        const gridGrote = 6;
+        const gridGrote = parseInt(gridGrootteInput.value);
         const vierkantBreedte = 85;
 
         const testGrid = new TestGrid(gridGrote);
