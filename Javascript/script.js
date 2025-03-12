@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if(erIsInvloed){
-            invloedenUl.insertBefore(invloedText, invloedenUl.children[0]);
+            invloedenUl.appendChild(invloedText, invloedenUl.children[0]);
         }
     });
 
