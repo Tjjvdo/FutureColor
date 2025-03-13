@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         locatie = locatieSelect.value;
         const encodedLocatie = encodeURIComponent(locatie);
 
-        const apiUrl = `https://weerlive.nl/api/weerlive_api_v2.php?key=${apiKey}&locatie=${encodedLocatie}`;;
+        const apiUrl = `https://weerlive.nl/api/weerlive_api_v2.php?key=${apiKey}&locatie=${encodedLocatie}`;
 
         updateWeer(apiUrl);
 
