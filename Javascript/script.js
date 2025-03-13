@@ -4,6 +4,7 @@ import Mengmachine from './mengmachine.js';
 import TestGrid from './testgrid.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Navigatie
     const MengHal1Knop = document.getElementById('MengHal1');
     const MengHal2Knop = document.getElementById('MengHal2');
     const KleurenTestKnop = document.getElementById('KleurenTest');
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Ingrediënten, potten en mengmachines + respectievelijke knoppen
     const nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
     const ingredientFormulier = document.getElementById('ingredient-formulier');
     const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
@@ -227,4 +229,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
         kleurenGridContainer.style.maxWidth = `${gridGrote * vierkantBreedte}px`;
     });
+
+    // weer & status
+    const invloedenUl = document.getElementById("invloedenLijst");
+    const temperatuurInput = document.getElementById("temperatuur");
+    const weerstypeSelect = document.getElementById("weerstype");
+
+    temperatuurInput.addEventListener('change', () => {
+        let tempValue = parseFloat(temperatuurInput.value);
+
+        if(tempValue < -30){
+            temperatuurInput.value = -30
+            tempValue = -30;
+        }else if(tempValue > 60){
+            temperatuurInput.value = 60;
+            tempValue = 60;
+        }
+        
+        let invloedText = document.createElement("li");
+        invloedText.setAttribute("id", "temperatuursinvloed");
+        let erIsInvloed = false;
+        
+        if(tempValue > 35){
+            invloedText.textContent= "Maximaal 1 mengmachine per hal mag draaien wegens hoge temperatuur!";
+            erIsInvloed = true;
+        }
+
+        if(tempValue < 10){
+            invloedText.textContent = "Alle mengtijden zijn 15% langer wegens lage temperatuur!";
+            erIsInvloed = true;
+        }
+
+        let liElementen = invloedenUl.getElementsByTagName('li');
+
+        verwijderWeersInvloeden(liElementen, "temperatuursinvloed");
+
+        if(erIsInvloed){
+            invloedenUl.insertBefore(invloedText, invloedenUl.children[0]);
+        }
+    });
+
+    weerstypeSelect.addEventListener('change', () => {
+        let weertype = weerstypeSelect.value;
+
+        let liElementen = invloedenUl.getElementsByTagName('li');
+
+        let invloedText = document.createElement("li");
+        invloedText.setAttribute("id", "weerstypeInvloed");
+        let erIsInvloed = false;
+
+        verwijderWeersInvloeden(liElementen, "weerstypeInvloed");
+
+        if(weertype === "regen" || weertype === "sneeuw"){
+            invloedText.textContent= "Alle mengtijden zijn 10% langer omdat het " + weertype + "t!";
+            erIsInvloed = true;
+        }
+
+        if(erIsInvloed){
+            invloedenUl.appendChild(invloedText, invloedenUl.children[0]);
+        }
+    });
+
+    function verwijderWeersInvloeden(liElementen, liId){
+        if (liElementen.length > 0) {
+            Array.from(liElementen).forEach((li) => {
+                if(li.id && li.id === liId){
+                    li.remove();
+                }
+            });
+        }
+    }
 });
