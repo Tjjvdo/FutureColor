@@ -1,137 +1,139 @@
 <!DOCTYPE html>
 <html lang="nl">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Future Color - Verf Meng Simulator</title>
-        <link rel="stylesheet" href="CSS/styles.css">
-    </head>
 
-    <body>
-        <header>
-            <h1>Future Color - Verf Meng Simulator</h1>
-            <nav>
-                <button id="MengHal1" class="active">Meng Hal 1</button>
-                <button id="MengHal2">Meng Hal 2</button>
-                <button id="KleurenTest">Kleurentest</button>
-            </nav>
-            <div>
-                API Instellingen & Info (Placeholder)
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Color - Verf Meng Simulator</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Future Color - Verf Meng Simulator</h1>
+        <nav>
+            <button id="MengHal1" class="active">Meng Hal 1</button>
+            <button id="MengHal2">Meng Hal 2</button>
+            <button id="KleurenTest">Kleurentest</button>
+        </nav>
+        <div>
+            API Instellingen & Info (Placeholder)
+        </div>
+    </header>
+
+    <main>
+        <section id="ingredienten-beheer">
+            <h2>Ingrediënten Beheer</h2>
+            <button id="nieuw-ingredient-knop">Nieuw Ingrediënt Maken</button>
+
+            <form id="ingredient-formulier" style="display: none;">
+                <h3>Nieuw Ingrediënt</h3>
+                <label for="mengtijd">Mengtijd (ms):</label>
+                <input type="number" id="mengtijd" name="mengtijd" value="100"><br><br>
+
+                <label for="mengsnelheid">Mengsnelheid:</label>
+                <input type="number" id="mengsnelheid" name="mengsnelheid" value="1"><br><br>
+
+                <div id="kleur-rgb-inputs">
+                    <h4>RGB Kleur</h4>
+                    <label for="rgb-rood">Rood (0-255):</label>
+                    <input type="number" id="rgb-rood" name="rgb-rood" min="0" max="255" value="0"><br><br>
+                    <label for="rgb-groen">Groen (0-255):</label>
+                    <input type="number" id="rgb-groen" name="rgb-groen" min="0" max="255" value="0"><br><br>
+                    <label for="rgb-blauw">Blauw (0-255):</label>
+                    <input type="number" id="rgb-blauw" name="rgb-blauw" min="0" max="255" value="0"><br><br>
+                </div>
+
+                <label for="structuur">Structuur:</label>
+                <select id="structuur" name="structuur">
+                    <option value="korrel">Korrel</option>
+                    <option value="grove-korrel">Grove korrel</option>
+                    <option value="glad">Glad</option>
+                    <option value="slijmerig">Slijmerig</option>
+                </select><br><br>
+
+                <button type="button" id="ingredient-toevoegen-knop">Ingrediënt Toevoegen</button>
+                <button type="button" id="annuleer-ingredient-knop">Annuleren</button>
+            </form>
+
+            <h3>Ingrediënten:</h3>
+            <div id="ingredienten-lijst">
             </div>
-        </header>
 
-        <main>
-            <section id="ingredienten-beheer">
-                <h2>Ingrediënten Beheer</h2>
-                <button id="nieuw-ingredient-knop">Nieuw Ingrediënt Maken</button>
+            <br>
 
-                <form id="ingredient-formulier" style="display: none;">
-                    <h3>Nieuw Ingrediënt</h3>
-                    <label for="mengtijd">Mengtijd (ms):</label>
-                    <input type="number" id="mengtijd" name="mengtijd" value="100"><br><br>
-            
-                    <label for="mengsnelheid">Mengsnelheid:</label>
-                    <input type="number" id="mengsnelheid" name="mengsnelheid" value="1"><br><br>
-            
-                    <div id="kleur-rgb-inputs">
-                        <h4>RGB Kleur</h4>
-                        <label for="rgb-rood">Rood (0-255):</label>
-                        <input type="number" id="rgb-rood" name="rgb-rood" min="0" max="255" value="0"><br><br>
-                        <label for="rgb-groen">Groen (0-255):</label>
-                        <input type="number" id="rgb-groen" name="rgb-groen" min="0" max="255" value="0"><br><br>
-                        <label for="rgb-blauw">Blauw (0-255):</label>
-                        <input type="number" id="rgb-blauw" name="rgb-blauw" min="0" max="255" value="0"><br><br>
-                    </div>
-            
-                    <label for="structuur">Structuur:</label>
-                    <select id="structuur" name="structuur">
-                        <option value="korrel">Korrel</option>
-                        <option value="grove-korrel">Grove korrel</option>
-                        <option value="glad">Glad</option>
-                        <option value="slijmerig">Slijmerig</option>
-                    </select><br><br>
-            
-                    <button type="button" id="ingredient-toevoegen-knop">Ingrediënt Toevoegen</button>
-                    <button type="button" id="annuleer-ingredient-knop">Annuleren</button>
-                </form>
+            <h3>Gemengde ingrediënten:</h3>
+            <div id="gemengde-ingredienten-lijst">
+            </div>
+        </section>
 
-                <h3>Ingrediënten:</h3>
-                <div id="ingredienten-lijst">
-                </div>
+        <section id="hal-1" class="active">
+            <h2>Meng Hal 1</h2>
+            <button id="nieuwe-pot-knop-hal-1">Nieuwe Pot Maken</button>
 
-                <br>
-                
-                <h3>Gemengde ingrediënten:</h3>
-                <div id="gemengde-ingredienten-lijst">
-                </div>
-            </section>
+            <h3>Potten:</h3>
+            <div id="potten-hal-1">
+            </div>
 
-            <section id="hal-1" class="active">
-                <h2>Meng Hal 1</h2>
-                <button id="nieuwe-pot-knop-hal-1">Nieuwe Pot Maken</button>
-            
-                <h3>Potten:</h3>
-                <div id="potten-hal-1">
-                    </div>
-            
-                <h3>Mengmachines:</h3>
-                <button id="nieuwe-mengmachine-knop-hal-1">Nieuwe Mengmachine Maken</button>
-                <div id="mengmachines-hal-1">
-                </div>
-                
-                <h3>Mengsels:</h3>
-                <div id="gemengde-potten-hal-1">
-            </section>
-            
-            <section id="hal-2">
-                <h2>Meng Hal 2</h2>
-                <button id="nieuwe-pot-knop-hal-2">Nieuwe Pot Maken</button>
-            
-                <h3>Potten:</h3>
-                <div id="potten-hal-2">
-                    </div>
-            
-                <h3>Mengmachines:</h3>
-                <button id="nieuwe-mengmachine-knop-hal-2">Nieuwe Mengmachine Maken</button>
-                <div id="mengmachines-hal-2">
-                </div>
+            <h3>Mengmachines:</h3>
+            <button id="nieuwe-mengmachine-knop-hal-1">Nieuwe Mengmachine Maken</button>
+            <div id="mengmachines-hal-1">
+            </div>
 
-                <h3>Mengsels:</h3>
-                <div id="gemengde-potten-hal-2">
-            </section>
+            <h3>Mengsels:</h3>
+            <div id="gemengde-potten-hal-1">
+        </section>
 
-            <section id="kleurentest-pagina">
-                <h2>Kleurentest Pagina</h2>
-                
-                <label for="grid-grootte-input">Grid Grootte:</label>
-                <input type="number" id="grid-grootte-input" value="6" min="1" max="10"> <small>(1-10)</small>
-                <div>
-                    <button id="nieuw-kleuren-test-grid-knop">Grid Genereren</button>
-                </div>
+        <section id="hal-2">
+            <h2>Meng Hal 2</h2>
+            <button id="nieuwe-pot-knop-hal-2">Nieuwe Pot Maken</button>
 
-                <h3>Kleur Grid:</h3>
-                <div id="kleur-grid">
-                    </div>
-            </section>
+            <h3>Potten:</h3>
+            <div id="potten-hal-2">
+            </div>
 
-            <aside id="weer-status">
-                <h2>Weer & Status</h2>
-                <div id="actueel-weer">
-                    <h3>Actueel Weer (Placeholder):</h3>
-                    <p>Weer icoon, Temperatuur, etc.</p>
-                </div>
-                <div id="weersinvloeden">
-                    <h3>Weersinvloeden (Placeholder):</h3>
-                    <p>Status van weersinvloeden op mengtijd/machines.</p>
-                </div>
-                <div id="machine-status">
-                    <h3>Machine Status (Placeholder):</h3>
-                    <p>Status van de mengmachines in actieve hal.</p>
-                </div>
-            </aside>
-        </main>
+            <h3>Mengmachines:</h3>
+            <button id="nieuwe-mengmachine-knop-hal-2">Nieuwe Mengmachine Maken</button>
+            <div id="mengmachines-hal-2">
+            </div>
 
-        <script type="module" src="Javascript/script.js"></script>
-        <script src="Javascript/WeatherAPI.js"></script>
-    </body>
+            <h3>Mengsels:</h3>
+            <div id="gemengde-potten-hal-2">
+        </section>
+
+        <section id="kleurentest-pagina">
+            <h2>Kleurentest Pagina</h2>
+
+            <label for="grid-grootte-input">Grid Grootte:</label>
+            <input type="number" id="grid-grootte-input" value="6" min="1" max="10"> <small>(1-10)</small>
+            <div>
+                <button id="nieuw-kleuren-test-grid-knop">Grid Genereren</button>
+            </div>
+
+            <h3>Kleur Grid:</h3>
+            <div id="kleur-grid">
+            </div>
+        </section>
+
+        <aside id="weer-status">
+            <h2>Weer & Status</h2>
+            <div id="actueel-weer">
+                <h3>Actueel Weer (Placeholder):</h3>
+                <p>Weer icoon, Temperatuur, etc.</p>
+            </div>
+            <div id="weersinvloeden">
+                <h3>Weersinvloeden (Placeholder):</h3>
+                <p>Status van weersinvloeden op mengtijd/machines.</p>
+            </div>
+            <div id="machine-status">
+                <h3>Machine Status (Placeholder):</h3>
+                <p>Status van de mengmachines in actieve hal.</p>
+            </div>
+        </aside>
+    </main>
+
+    <script type="module" src="Javascript/script.js"></script>
+    <script src="Javascript/WeatherAPI.js"></script>
+</body>
+
 </html>

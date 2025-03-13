@@ -33,7 +33,7 @@ class Pot {
 
                 if (ingredientElementOrigineel) {
                     const ingredientChildren = this.potElement.querySelectorAll('.ingrediënt');
-                    if (!this.isDezelfdeMengSnelheid(ingredientChildren, ingredientElementOrigineel)){
+                    if (!this.isDezelfdeMengSnelheid(ingredientChildren, ingredientElementOrigineel)) {
                         return;
                     }
 
