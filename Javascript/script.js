@@ -1,6 +1,7 @@
 import Ingredient from './ingredient.js';
 import Pot from './pot.js';
 import Mengmachine from './mengmachine.js';
+import TestGrid from './testgrid.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Navigatie
@@ -15,17 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
         MengHal1Knop.classList.add('active');
         Hal1.classList.add('active');
 
-        if(MengHal2Knop.classList.contains('active')){
+        if (MengHal2Knop.classList.contains('active')) {
             MengHal2Knop.classList.remove('active');
         }
-        if(Hal2.classList.contains('active')){
+        if (Hal2.classList.contains('active')) {
             Hal2.classList.remove('active');
         }
 
-        if(KleurenTestKnop.classList.contains('active')){
+        if (KleurenTestKnop.classList.contains('active')) {
             KleurenTestKnop.classList.remove('active');
         }
-        if(KleurenTest.classList.contains('active')){
+        if (KleurenTest.classList.contains('active')) {
             KleurenTest.classList.remove('active');
         }
     });
@@ -34,17 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
         MengHal2Knop.classList.add('active');
         Hal2.classList.add('active');
 
-        if(MengHal1Knop.classList.contains('active')){
+        if (MengHal1Knop.classList.contains('active')) {
             MengHal1Knop.classList.remove('active');
         }
-        if(Hal1.classList.contains('active')){
+        if (Hal1.classList.contains('active')) {
             Hal1.classList.remove('active');
         }
 
-        if(KleurenTestKnop.classList.contains('active')){
+        if (KleurenTestKnop.classList.contains('active')) {
             KleurenTestKnop.classList.remove('active');
         }
-        if(KleurenTest.classList.contains('active')){
+        if (KleurenTest.classList.contains('active')) {
             KleurenTest.classList.remove('active');
         }
     });
@@ -53,17 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
         KleurenTestKnop.classList.add('active');
         KleurenTest.classList.add('active');
 
-        if(MengHal1Knop.classList.contains('active')){
+        if (MengHal1Knop.classList.contains('active')) {
             MengHal1Knop.classList.remove('active');
         }
-        if(Hal1.classList.contains('active')){
+        if (Hal1.classList.contains('active')) {
             Hal1.classList.remove('active');
         }
 
-        if(MengHal2Knop.classList.contains('active')){
+        if (MengHal2Knop.classList.contains('active')) {
             MengHal2Knop.classList.remove('active');
         }
-        if(Hal2.classList.contains('active')){
+        if (Hal2.classList.contains('active')) {
             Hal2.classList.remove('active');
         }
     });
@@ -84,6 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const mengmachinesHal2Container = document.getElementById('mengmachines-hal-2');
     const gemengdePottenHal1 = document.getElementById('gemengde-potten-hal-1');
     const gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
+    const nieuweKleurenTestGridKnop = document.getElementById('nieuw-kleuren-test-grid-knop');
+    const kleurenGridContainer = document.getElementById('kleur-grid');
+    const gridGrootteInput = document.getElementById('grid-grootte-input');
 
     nieuwIngredientKnop.addEventListener('click', () => {
         ingredientFormulier.style.display = 'block';
@@ -97,31 +101,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ingredientToevoegenKnop.addEventListener('click', () => {
         resetFoutmeldingen();
-    
+
         const mengtijdInput = document.getElementById('mengtijd');
         const mengsnelheidInput = document.getElementById('mengsnelheid');
         const rgbRoodInput = document.getElementById('rgb-rood');
         const rgbGroenInput = document.getElementById('rgb-groen');
         const rgbBlauwInput = document.getElementById('rgb-blauw');
         const structuurInput = document.getElementById('structuur');
-    
+
         const rood = parseInt(rgbRoodInput.value);
         const groen = parseInt(rgbGroenInput.value);
         const blauw = parseInt(rgbBlauwInput.value);
         const mengtijd = parseInt(mengtijdInput.value);
         const mengsnelheid = parseInt(mengsnelheidInput.value);
         const structuur = structuurInput.value;
-    
+
         if (valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur)) {
             return;
         }
-    
+
         const kleur = { type: 'rgb', rood, groen, blauw };
         const nieuwIngredient = new Ingredient(mengtijd, mengsnelheid, kleur, structuur);
-        
+
         const ingredientElement = nieuwIngredient.creëerElement();
         ingredientenLijstContainer.appendChild(ingredientElement);
-    
+
         ingredientFormulier.reset();
         ingredientFormulier.style.display = 'none';
         nieuwIngredientKnop.style.display = 'block';
@@ -200,15 +204,30 @@ document.addEventListener('DOMContentLoaded', () => {
     nieuweMengmachineKnopHal1.addEventListener('click', () => {
         const machine = new Mengmachine(gemengdePottenHal1);
         const machineContainer = machine.getElement();
-    
+
         mengmachinesHal1Container.appendChild(machineContainer);
     });
-    
+
     nieuweMengmachineKnopHal2.addEventListener('click', () => {
         const machine = new Mengmachine(gemengdePottenHal2);
         const machineContainer = machine.getElement();
-    
+
         mengmachinesHal2Container.appendChild(machineContainer);
+    });
+
+    nieuweKleurenTestGridKnop.addEventListener('click', () => {
+        const gridGrote = parseInt(gridGrootteInput.value);
+        const vierkantBreedte = 85;
+
+        const testGrid = new TestGrid(gridGrote);
+        let testGridVierkantjes = testGrid.getElementen();
+
+        kleurenGridContainer.innerHTML = '';
+        testGridVierkantjes.forEach(vierkantje => {
+            kleurenGridContainer.appendChild(vierkantje);
+        });
+
+        kleurenGridContainer.style.maxWidth = `${gridGrote * vierkantBreedte}px`;
     });
 
     // weer & status

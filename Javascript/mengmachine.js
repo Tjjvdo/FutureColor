@@ -27,7 +27,7 @@ class Mengmachine {
         this.mengmachineElement.addEventListener('drop', (event) => this.handleDrop(event));
     }
 
-    valideerMixKleur(rood, groen, blauw, mengtijd, mengsnelheid, structuur){
+    valideerMixKleur(rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
         let heeftFouten = false;
 
         if (isNaN(mengtijd) || mengtijd <= 0) {
@@ -62,7 +62,7 @@ class Mengmachine {
 
         if (potElementOrigineel) {
             const potIngredientenOrigineel = potElementOrigineel.querySelectorAll('.ingrediënt');
-            
+
             if (potIngredientenOrigineel) {
                 let nieuwRood = 0, nieuwGroen = 0, nieuwBlauw = 0;
                 let nieuweMengtijd = 0, nieuweMengsnelheid = 0, nieuweStructuur;
@@ -70,7 +70,7 @@ class Mengmachine {
                 potIngredientenOrigineel.forEach(ingredient => {
                     let ingredientAchtergrond = ingredient.style.backgroundColor;
                     let rgbValues = ingredientAchtergrond.match(/\d+/g);
-                    
+
                     if (rgbValues) {
                         let ingredientRood = parseInt(rgbValues[0]);
                         let ingredientGroen = parseInt(rgbValues[1]);
@@ -80,9 +80,9 @@ class Mengmachine {
                         nieuwGroen += ingredientGroen;
                         nieuwBlauw += ingredientBlauw;
 
-                        if(nieuwRood > 255) nieuwRood = 255;
-                        if(nieuwGroen > 255) nieuwGroen = 255;
-                        if(nieuwBlauw > 255) nieuwBlauw = 255;
+                        if (nieuwRood > 255) nieuwRood = 255;
+                        if (nieuwGroen > 255) nieuwGroen = 255;
+                        if (nieuwBlauw > 255) nieuwBlauw = 255;
 
                         let titleText = ingredient.title;
                         let titleParts = titleText.split(',').map(part => part.trim());
@@ -119,18 +119,18 @@ class Mengmachine {
                     id: Date.now()
                 };
 
-                    const ingredientElement = this.creëerIngredientElement(nieuwIngredient);
-                    gemengdeIngredientenLijstContainer.appendChild(ingredientElement);
+                const ingredientElement = this.creëerIngredientElement(nieuwIngredient);
+                gemengdeIngredientenLijstContainer.appendChild(ingredientElement);
 
-                    const ingredientElementKloon = ingredientElement.cloneNode(true);
-                    potElementOrigineel.innerHTML = "";
-                    potElementOrigineel.appendChild(ingredientElementKloon);
+                const ingredientElementKloon = ingredientElement.cloneNode(true);
+                potElementOrigineel.innerHTML = "";
+                potElementOrigineel.appendChild(ingredientElementKloon);
 
-                    ingredientElementKloon.draggable = false;
+                ingredientElementKloon.draggable = false;
 
-                    this.gemengdePottenHal.appendChild(potElementOrigineel);
-                    potElementOrigineel.dataset.potStatus = 'in-hal';
-                    this.mengmachineElement.dataset.mixerStatus = 'idle';
+                this.gemengdePottenHal.appendChild(potElementOrigineel);
+                potElementOrigineel.dataset.potStatus = 'in-hal';
+                this.mengmachineElement.dataset.mixerStatus = 'idle';
             }
         }
     }
