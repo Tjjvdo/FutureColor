@@ -49,7 +49,6 @@ class TestGrid {
 
     addClickListener(vierkantje) {
         vierkantje.addEventListener('click', () => {
-            console.log("clicked");
             const vierkantjeElementOrigineel = vierkantje.querySelector('.ingrediënt');
 
             if (vierkantjeElementOrigineel) {
