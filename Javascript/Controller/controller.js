@@ -1,9 +1,13 @@
-import Ingredient from './ingredient.js';
-import Pot from './pot.js';
-import Mengmachine from './mengmachine.js';
-import TestGrid from './testgrid.js';
+import WeatherAPI from '../Model/WeatherAPI.js';
+import Ingredient from '../Model/ingredient.js';
+import Pot from '../Model/pot.js';
+import Mengmachine from '../Model/mengmachine.js';
+import TestGrid from '../Model/testgrid.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Weather API
+    const weatherAPI = new WeatherAPI();
+    
     // Navigatie
     const MengHal1Knop = document.getElementById('MengHal1');
     const MengHal2Knop = document.getElementById('MengHal2');

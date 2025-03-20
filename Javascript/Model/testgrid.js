@@ -1,5 +1,3 @@
-const gemengdeIngredientenLijst = document.getElementById('gemengde-ingredienten-lijst');
-
 class TestGrid {
     constructor(gridGrote) {
         this.vierkantjes = [];
