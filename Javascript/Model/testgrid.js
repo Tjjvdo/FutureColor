@@ -1,5 +1,3 @@
-const gemengdeIngredientenLijst = document.getElementById('gemengde-ingredienten-lijst');
-
 class TestGrid {
     constructor(gridGrote) {
         this.vierkantjes = [];
@@ -31,7 +29,7 @@ class TestGrid {
             const ingredientId = event.dataTransfer.getData('text/plain');
 
             if (ingredientId) {
-                const ingredientElementOrigineel = gemengdeIngredientenLijst.querySelector(`.ingrediënt[data-ingredient-id="${ingredientId}"]`);
+                const ingredientElementOrigineel = document.querySelector(`.ingrediënt[data-ingredient-id="${ingredientId}"]`);
 
                 if (ingredientElementOrigineel) {
                     if (vierkantje.children.length > 0) {
@@ -39,6 +37,7 @@ class TestGrid {
                     }
 
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
+                    ingredientElementKloon.style.boxSizing = "";
                     vierkantje.appendChild(ingredientElementKloon);
 
                     ingredientElementKloon.draggable = false;
