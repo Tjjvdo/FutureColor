@@ -6,9 +6,6 @@ class View{
         this.Hal1 = document.getElementById('hal-1');
         this.Hal2 = document.getElementById('hal-2');
         this.KleurenTest = document.getElementById('kleurentest-pagina');
-        
-        this.nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
-        this.ingredientFormulier = document.getElementById('ingredient-formulier');
     }
 
     ShowMengHal1(){
@@ -66,11 +63,6 @@ class View{
         if (this.Hal2.classList.contains('active')) {
             this.Hal2.classList.remove('active');
         }
-    }
-
-    ShowNewIngredientForm(){
-        this.ingredientFormulier.style.display = 'block';
-        this.nieuwIngredientKnop.style.display = 'none';
     }
 }
 

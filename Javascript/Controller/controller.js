@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
     const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
     const annuleerIngredientKnop = document.getElementById('annuleer-ingredient-knop');
-    const ingredientenLijstContainer = document.getElementById('ingredienten-lijst');
     const nieuwePotKnopHal1 = document.getElementById('nieuwe-pot-knop-hal-1');
     const pottenHal1Container = document.getElementById('potten-hal-1');
     const nieuwePotKnopHal2 = document.getElementById('nieuwe-pot-knop-hal-2');
@@ -52,16 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridGrootteInput = document.getElementById('grid-grootte-input');
 
     nieuwIngredientKnop.addEventListener('click', () => {
-        view.ShowNewIngredientForm();
+        ingredientView.ShowNewIngredientForm();
     });
 
     annuleerIngredientKnop.addEventListener('click', () => {
-        ingredientFormulier.style.display = 'none';
-        nieuwIngredientKnop.style.display = 'block';
+        ingredientView.HideIngredientForm();
     });
 
     ingredientToevoegenKnop.addEventListener('click', () => {
-        resetFoutmeldingen();
+        ingredientView.ResetErrors();
 
         const mengtijdInput = document.getElementById('mengtijd');
         const mengsnelheidInput = document.getElementById('mengsnelheid');
@@ -84,12 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const kleur = { type: 'rgb', rood, groen, blauw };
         const nieuwIngredient = new Ingredient(mengtijd, mengsnelheid, kleur, structuur);
 
-        const ingredientElement = nieuwIngredient.creëerElement();
-        ingredientenLijstContainer.appendChild(ingredientElement);
-
-        ingredientFormulier.reset();
-        ingredientFormulier.style.display = 'none';
-        nieuwIngredientKnop.style.display = 'block';
+        ingredientView.AddNewIngredientToList(nieuwIngredient);
     });
 
     function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
@@ -99,53 +92,42 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(mengtijd) || mengtijd <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengtijd (moet een getal groter dan 0 zijn)\n";
-            markeerFoutiefVeld(mengtijdInput);
+            ingredientView.MarkWrongField(mengtijdInput);
         }
 
         if (isNaN(mengsnelheid) || mengsnelheid <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengsnelheid (moet een getal groter dan 0 zijn)\n";
-            markeerFoutiefVeld(mengsnelheidInput);
+            ingredientView.MarkWrongField(mengsnelheidInput);
         }
 
         if (isNaN(rood) || rood < 0 || rood > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Rood (moet een getal tussen 0 en 255 zijn)\n";
-            markeerFoutiefVeld(rgbRoodInput);
+            ingredientView.MarkWrongField(rgbRoodInput);
         }
 
         if (isNaN(groen) || groen < 0 || groen > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Groen (moet een getal tussen 0 en 255 zijn)\n";
-            markeerFoutiefVeld(rgbGroenInput);
+            ingredientView.MarkWrongField(rgbGroenInput);
         }
 
         if (isNaN(blauw) || blauw < 0 || blauw > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Blauw (moet een getal tussen 0 en 255 zijn)\n";
-            markeerFoutiefVeld(rgbBlauwInput);
+            ingredientView.MarkWrongField(rgbBlauwInput);
         }
 
         if (!structuur) {
             heeftFouten = true;
             foutmelding += "- Structuur (selecteer een structuur)\n";
-            markeerFoutiefVeld(structuurSelect);
+            ingredientView.MarkWrongField(structuurSelect);
         }
 
         if (heeftFouten) {
             return true;
         }
-    }
-
-    function markeerFoutiefVeld(veld) {
-        veld.classList.add('fout-veld');
-    }
-
-    function resetFoutmeldingen() {
-        const foutieveVelden = document.querySelectorAll('.fout-veld');
-        foutieveVelden.forEach(veld => {
-            veld.classList.remove('fout-veld');
-        });
     }
 
     nieuwePotKnopHal1.addEventListener('click', () => {
