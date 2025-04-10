@@ -8,7 +8,7 @@ class View{
         this.KleurenTest = document.getElementById('kleurentest-pagina');
     }
 
-    ShowMengHal1(){
+    ToonMengHal1(){
         this.MengHal1Knop.classList.add('active');
         this.Hal1.classList.add('active');
 
@@ -27,7 +27,7 @@ class View{
         }
     }
 
-    ShowMengHal2(){
+    ToonMengHal2(){
         this.MengHal2Knop.classList.add('active');
         this.Hal2.classList.add('active');
 
@@ -46,7 +46,7 @@ class View{
         }
     }
 
-    ShowKleurenTest(){
+    ToonKleurenTest(){
         this.KleurenTestKnop.classList.add('active');
         this.KleurenTest.classList.add('active');
 

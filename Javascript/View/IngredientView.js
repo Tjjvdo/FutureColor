@@ -6,17 +6,17 @@ class IngredientView{
         
     }
 
-    ShowNewIngredientForm(){
+    ToonNieuwIngredientForm(){
         this.ingredientFormulier.style.display = 'block';
         this.nieuwIngredientKnop.style.display = 'none';
     }
 
-    HideIngredientForm(){
+    VerbergIngredientForm(){
         this.ingredientFormulier.style.display = 'none';
         this.nieuwIngredientKnop.style.display = 'block';
     }
 
-    AddNewIngredientToList(ingredient){
+    NieuwIngredientToevoegen(ingredient){
         const ingredientElement = document.createElement('div');
         ingredientElement.classList.add('ingrediënt');
         ingredientElement.title = `Mengtijd: ${ingredient.mengtijd}ms, Mengsnelheid: ${ingredient.mengsnelheid}, Structuur: ${ingredient.structuur}`;
@@ -42,7 +42,6 @@ class IngredientView{
         this.ingredientenLijstContainer.appendChild(ingredientElement);
 
         ingredientElement.addEventListener('dragstart', (event) => {
-            console.log(ingredient.id);
             event.dataTransfer.setData('text/plain', ingredient.id);
         });
 
@@ -51,7 +50,7 @@ class IngredientView{
         this.nieuwIngredientKnop.style.display = 'block';
     }
 
-    MarkWrongField(field){
+    MarkeerFoutiefVeld(field){
         field.classList.add('fout-veld');
     }
 

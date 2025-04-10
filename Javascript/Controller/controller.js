@@ -21,15 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const KleurenTestKnop = document.getElementById('KleurenTest');
 
     MengHal1Knop.addEventListener('click', () => {
-        view.ShowMengHal1();
+        view.ToonMengHal1();
     });
 
     MengHal2Knop.addEventListener('click', () => {
-        view.ShowMengHal2();
+        view.ToonMengHal2();
     });
 
     KleurenTestKnop.addEventListener('click', () => {
-        view.ShowKleurenTest();
+        view.ToonKleurenTest();
     });
 
     // Ingrediënten, potten en mengmachines + respectievelijke knoppen
@@ -50,12 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const kleurenGridContainer = document.getElementById('kleur-grid');
     const gridGrootteInput = document.getElementById('grid-grootte-input');
 
+
+    // Ingredienten
     nieuwIngredientKnop.addEventListener('click', () => {
-        ingredientView.ShowNewIngredientForm();
+        ingredientView.ToonNieuwIngredientForm();
     });
 
     annuleerIngredientKnop.addEventListener('click', () => {
-        ingredientView.HideIngredientForm();
+        ingredientView.VerbergIngredientForm();
     });
 
     ingredientToevoegenKnop.addEventListener('click', () => {
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const kleur = { type: 'rgb', rood, groen, blauw };
         const nieuwIngredient = new Ingredient(mengtijd, mengsnelheid, kleur, structuur);
 
-        ingredientView.AddNewIngredientToList(nieuwIngredient);
+        ingredientView.NieuwIngredientToevoegen(nieuwIngredient);
     });
 
     function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
@@ -92,37 +94,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(mengtijd) || mengtijd <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengtijd (moet een getal groter dan 0 zijn)\n";
-            ingredientView.MarkWrongField(mengtijdInput);
+            ingredientView.MarkeerFoutiefVeld(mengtijdInput);
         }
 
         if (isNaN(mengsnelheid) || mengsnelheid <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengsnelheid (moet een getal groter dan 0 zijn)\n";
-            ingredientView.MarkWrongField(mengsnelheidInput);
+            ingredientView.MarkeerFoutiefVeld(mengsnelheidInput);
         }
 
         if (isNaN(rood) || rood < 0 || rood > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Rood (moet een getal tussen 0 en 255 zijn)\n";
-            ingredientView.MarkWrongField(rgbRoodInput);
+            ingredientView.MarkeerFoutiefVeld(rgbRoodInput);
         }
 
         if (isNaN(groen) || groen < 0 || groen > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Groen (moet een getal tussen 0 en 255 zijn)\n";
-            ingredientView.MarkWrongField(rgbGroenInput);
+            ingredientView.MarkeerFoutiefVeld(rgbGroenInput);
         }
 
         if (isNaN(blauw) || blauw < 0 || blauw > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Blauw (moet een getal tussen 0 en 255 zijn)\n";
-            ingredientView.MarkWrongField(rgbBlauwInput);
+            ingredientView.MarkeerFoutiefVeld(rgbBlauwInput);
         }
 
         if (!structuur) {
             heeftFouten = true;
             foutmelding += "- Structuur (selecteer een structuur)\n";
-            ingredientView.MarkWrongField(structuurSelect);
+            ingredientView.MarkeerFoutiefVeld(structuurSelect);
         }
 
         if (heeftFouten) {
@@ -130,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Potten
     nieuwePotKnopHal1.addEventListener('click', () => {
         const pot = new Pot();
         const potElement = pot.getElement();
@@ -144,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pottenHal2Container.appendChild(potElement);
     });
 
+    // Mengmachines
     nieuweMengmachineKnopHal1.addEventListener('click', () => {
         const machine = new Mengmachine(gemengdePottenHal1);
         const machineContainer = machine.getElement();
@@ -158,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mengmachinesHal2Container.appendChild(machineContainer);
     });
 
+    // Test grid
     nieuweKleurenTestGridKnop.addEventListener('click', () => {
         const gridGrote = parseInt(gridGrootteInput.value);
         const vierkantBreedte = 85;
@@ -173,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         kleurenGridContainer.style.maxWidth = `${gridGrote * vierkantBreedte}px`;
     });
 
-    // weer & status
+    // Weer & status
     const invloedenUl = document.getElementById("invloedenLijst");
     const temperatuurInput = document.getElementById("temperatuur");
     const weerstypeSelect = document.getElementById("weerstype");
