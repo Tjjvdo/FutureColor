@@ -1,5 +1,6 @@
 import View from '../View/View.js';
 import IngredientView from '../View/IngredientView.js';
+import PotView from '../View/PotView.js';
 
 import WeatherAPI from '../Model/WeatherAPI.js';
 import Ingredient from '../Model/ingredient.js';
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Views
     const view = new View();
     const ingredientView = new IngredientView();
+    const potView = new PotView();
 
     // Weather API
     const weatherAPI = new WeatherAPI();
@@ -37,9 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
     const annuleerIngredientKnop = document.getElementById('annuleer-ingredient-knop');
     const nieuwePotKnopHal1 = document.getElementById('nieuwe-pot-knop-hal-1');
-    const pottenHal1Container = document.getElementById('potten-hal-1');
     const nieuwePotKnopHal2 = document.getElementById('nieuwe-pot-knop-hal-2');
-    const pottenHal2Container = document.getElementById('potten-hal-2');
     const nieuweMengmachineKnopHal1 = document.getElementById('nieuwe-mengmachine-knop-hal-1');
     const mengmachinesHal1Container = document.getElementById('mengmachines-hal-1');
     const nieuweMengmachineKnopHal2 = document.getElementById('nieuwe-mengmachine-knop-hal-2');
@@ -135,16 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Potten
     nieuwePotKnopHal1.addEventListener('click', () => {
         const pot = new Pot();
-        const potElement = pot.getElement();
 
-        pottenHal1Container.appendChild(potElement);
+        potView.MaakNieuwePotHal1(pot);
     });
 
     nieuwePotKnopHal2.addEventListener('click', () => {
         const pot = new Pot();
-        const potElement = pot.getElement();
 
-        pottenHal2Container.appendChild(potElement);
+        potView.MaakNieuwePotHal2(pot);
     });
 
     // Mengmachines
