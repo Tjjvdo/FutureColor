@@ -1,3 +1,6 @@
+import View from '../View/View.js';
+import IngredientView from '../View/IngredientView.js';
+
 import WeatherAPI from '../Model/WeatherAPI.js';
 import Ingredient from '../Model/ingredient.js';
 import Pot from '../Model/pot.js';
@@ -5,6 +8,10 @@ import Mengmachine from '../Model/mengmachine.js';
 import TestGrid from '../Model/testgrid.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Views
+    const view = new View();
+    const ingredientView = new IngredientView();
+
     // Weather API
     const weatherAPI = new WeatherAPI();
     
@@ -12,70 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const MengHal1Knop = document.getElementById('MengHal1');
     const MengHal2Knop = document.getElementById('MengHal2');
     const KleurenTestKnop = document.getElementById('KleurenTest');
-    const Hal1 = document.getElementById('hal-1');
-    const Hal2 = document.getElementById('hal-2');
-    const KleurenTest = document.getElementById('kleurentest-pagina');
 
     MengHal1Knop.addEventListener('click', () => {
-        MengHal1Knop.classList.add('active');
-        Hal1.classList.add('active');
-
-        if (MengHal2Knop.classList.contains('active')) {
-            MengHal2Knop.classList.remove('active');
-        }
-        if (Hal2.classList.contains('active')) {
-            Hal2.classList.remove('active');
-        }
-
-        if (KleurenTestKnop.classList.contains('active')) {
-            KleurenTestKnop.classList.remove('active');
-        }
-        if (KleurenTest.classList.contains('active')) {
-            KleurenTest.classList.remove('active');
-        }
+        view.ShowMengHal1();
     });
 
     MengHal2Knop.addEventListener('click', () => {
-        MengHal2Knop.classList.add('active');
-        Hal2.classList.add('active');
-
-        if (MengHal1Knop.classList.contains('active')) {
-            MengHal1Knop.classList.remove('active');
-        }
-        if (Hal1.classList.contains('active')) {
-            Hal1.classList.remove('active');
-        }
-
-        if (KleurenTestKnop.classList.contains('active')) {
-            KleurenTestKnop.classList.remove('active');
-        }
-        if (KleurenTest.classList.contains('active')) {
-            KleurenTest.classList.remove('active');
-        }
+        view.ShowMengHal2();
     });
 
     KleurenTestKnop.addEventListener('click', () => {
-        KleurenTestKnop.classList.add('active');
-        KleurenTest.classList.add('active');
-
-        if (MengHal1Knop.classList.contains('active')) {
-            MengHal1Knop.classList.remove('active');
-        }
-        if (Hal1.classList.contains('active')) {
-            Hal1.classList.remove('active');
-        }
-
-        if (MengHal2Knop.classList.contains('active')) {
-            MengHal2Knop.classList.remove('active');
-        }
-        if (Hal2.classList.contains('active')) {
-            Hal2.classList.remove('active');
-        }
+        view.ShowKleurenTest();
     });
 
     // Ingrediënten, potten en mengmachines + respectievelijke knoppen
     const nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
-    const ingredientFormulier = document.getElementById('ingredient-formulier');
     const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
     const annuleerIngredientKnop = document.getElementById('annuleer-ingredient-knop');
     const ingredientenLijstContainer = document.getElementById('ingredienten-lijst');
@@ -94,8 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridGrootteInput = document.getElementById('grid-grootte-input');
 
     nieuwIngredientKnop.addEventListener('click', () => {
-        ingredientFormulier.style.display = 'block';
-        nieuwIngredientKnop.style.display = 'none';
+        view.ShowNewIngredientForm();
     });
 
     annuleerIngredientKnop.addEventListener('click', () => {
