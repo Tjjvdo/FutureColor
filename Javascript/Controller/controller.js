@@ -2,12 +2,13 @@ import View from '../View/View.js';
 import IngredientView from '../View/IngredientView.js';
 import PotView from '../View/PotView.js';
 import MengMachinesView from '../View/MengMachinesView.js';
+import TestGridView from '../View/TestGridView.js';
 
 import WeatherAPI from '../Model/WeatherAPI.js';
 import Ingredient from '../Model/ingredient.js';
 import Pot from '../Model/pot.js';
 import Mengmachine from '../Model/mengmachine.js';
-import TestGrid from '../Model/testgrid.js';
+import Vierkant from '../Model/vierkant.js';
 
 class Controller{
     constructor(){
@@ -16,6 +17,7 @@ class Controller{
         this.ingredientView = new IngredientView();
         this.potView = new PotView();
         this.mengMachinesView = new MengMachinesView();
+        this.testGridView = new TestGridView();
 
         // Weather API
         this.weatherAPI = new WeatherAPI();
@@ -48,7 +50,6 @@ class Controller{
         this.gemengdePottenHal1 = document.getElementById('gemengde-potten-hal-1');
         this.gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
         this.nieuweKleurenTestGridKnop = document.getElementById('nieuw-kleuren-test-grid-knop');
-        this.kleurenGridContainer = document.getElementById('kleur-grid');
         this.gridGrootteInput = document.getElementById('grid-grootte-input');
 
         // Ingredienten
@@ -116,17 +117,12 @@ class Controller{
         // Test grid
         this.nieuweKleurenTestGridKnop.addEventListener('click', () => {
             const gridGrote = parseInt(this.gridGrootteInput.value);
-            const vierkantBreedte = 85;
-
-            const testGrid = new TestGrid(gridGrote);
-            let testGridVierkantjes = testGrid.getElementen();
-
-            this.kleurenGridContainer.innerHTML = '';
-            testGridVierkantjes.forEach(vierkantje => {
-                this.kleurenGridContainer.appendChild(vierkantje);
-            });
-
-            this.kleurenGridContainer.style.maxWidth = `${gridGrote * vierkantBreedte}px`;
+            const vierkantjes = [];
+            for (let i = 0; i < gridGrote * gridGrote; i++) {
+                let vierkant = new Vierkant();
+                vierkantjes.push(vierkant);
+            }
+            this.testGridView.MaakTestGrid(vierkantjes, gridGrote, this);
         });
 
         // Weer & status
@@ -190,6 +186,7 @@ class Controller{
         });
     }
 
+    // Validatie functie
     valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
         let heeftFouten = false;
         let foutmelding = "De volgende velden zijn verplicht en moeten correct ingevuld zijn:\n";
@@ -235,10 +232,12 @@ class Controller{
         }
     }
 
+    // Pot functies
     isDezelfdeMengSnelheidPot(pot, ingredientChildren, ingredientElementOrigineel){
         return pot.isDezelfdeMengSnelheid(ingredientChildren, ingredientElementOrigineel);
     }
 
+    // Mengmachine functies
     handleMixClick(machine){
         const [nieuwIngredient, potElementOrigineel, gemengdePottenHal] = machine.handleMixClick();
         const gemengdeIngredient = new Ingredient(nieuwIngredient.mengtijd, nieuwIngredient.mengsnelheid, nieuwIngredient.kleur, nieuwIngredient.structuur);
@@ -256,6 +255,21 @@ class Controller{
         machine.handleDrop(event);
     }
 
+    // Testgrid functies
+    handleVierkantDrop(vierkantje, event){
+        const ingredientElementOrigineel = vierkantje.addDropListener(event);
+
+        if(ingredientElementOrigineel){
+            this.testGridView.cloneKleur(vierkantje, ingredientElementOrigineel)
+        }
+    }
+
+    handleVierkantClick(vierkantje){
+        const [ingredientAchtergrond, triadicRgbColors, triadicHslColors] = vierkantje.addClickListener();
+        this.testGridView.showTriadicColorsPopup(vierkantje, ingredientAchtergrond, triadicRgbColors, triadicHslColors);
+    }
+
+    // Weer functies
     verwijderWeersInvloeden(liElementen, liId){
         if (liElementen.length > 0) {
             Array.from(liElementen).forEach((li) => {
