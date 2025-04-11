@@ -206,10 +206,14 @@ class Controller {
         const [nieuwIngredient, potElementOrigineel, gemengdePottenHal] = machine.handleMixClick();
         const gemengdeIngredient = new Ingredient(nieuwIngredient.mengtijd, nieuwIngredient.mengsnelheid, nieuwIngredient.kleur, nieuwIngredient.structuur);
 
+        //bereken de mengtijd
+        let mengtijd = nieuwIngredient.mengtijd * this.weatherAPI.getTijdMultiplier();
+
+        //stel deze functie uit voor de mengtijd
         setTimeout(() => {
             const ingredientElement = this.ingredientView.NieuwIngredientToevoegenAanGemengdeLijst(gemengdeIngredient);
             this.potView.VerplaatsPotNaarGemengdeHal(ingredientElement, potElementOrigineel, gemengdePottenHal);
-        }, nieuwIngredient.mengtijd);
+        }, mengtijd);
     }
 
     handleMixDragOver(machine, event) {
