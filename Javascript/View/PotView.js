@@ -31,7 +31,8 @@ class PotView{
         potElement.addEventListener('drop', (event) => {
             event.preventDefault();
 
-            if (pot.potStatus === 'in-mixer') {
+            //vorige werkte helemaal niet eens...
+            if (potElement.dataset.potStatus === 'in-mixer') {
                 return;
             }
 
@@ -75,6 +76,8 @@ class PotView{
 
         gemengdePottenHal.appendChild(potElementOrigineel);
         potElementOrigineel.dataset.potStatus = 'in-hal';
+        // weer draggable maken zodat je verder kan mixen
+        potElementOrigineel.draggable = true;
     }
 }
 

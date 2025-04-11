@@ -46,10 +46,10 @@ class WeatherAPI {
                     weerstypeSelect.value = this.bepaalWeertype(weer.samenv);
                     weerstypeSelect.dispatchEvent(new Event('change'));
                 } else {
-                    console.error("Geen weerdata ontvangen.");
+                    alert("Geen weerdata ontvangen.");
                 }
             })
-            .catch(error => console.error("Fout bij ophalen weerdata:", error));
+            .catch(error => alert("Fout bij ophalen weerdata:", error));
     }
 
     bepaalWeertype(weerSamenvatting) {
@@ -77,6 +77,14 @@ class WeatherAPI {
         }
 
         return multiplier;
+    }
+
+    max1Machine() {
+        if (temperatuurInput.value > 35) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

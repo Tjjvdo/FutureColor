@@ -1,5 +1,5 @@
 class Mengmachine {
-    constructor(gemengdePottenHal){
+    constructor(gemengdePottenHal) {
         this.gemengdePottenHal = gemengdePottenHal;
     }
 
@@ -94,7 +94,8 @@ class Mengmachine {
                     structuur: nieuweStructuur,
                 };
 
-                this.mengmachineElement.dataset.mixerStatus = 'idle';
+                // moest later op idle worden gezet
+                this.mengmachineElement.dataset.mixerStatus = 'mixen';
 
                 return [nieuwIngredient, potElementOrigineel, this.gemengdePottenHal];
             }
@@ -108,7 +109,9 @@ class Mengmachine {
     handleDrop(event) {
         event.preventDefault();
 
-        if (this.mengmachineElement.dataset.mixerStatus === 'bezet') {
+        // extra status erbij gekomen wanner er iets niet in mag
+        let mixerStatus = this.mengmachineElement.dataset.mixerStatus;
+        if (mixerStatus === 'bezet' || mixerStatus === 'mixen') {
             return;
         }
 
@@ -118,15 +121,42 @@ class Mengmachine {
             const potElementOrigineel = document.querySelector(`.pot[data-pot-id="${potId}"]`);
 
             if (potElementOrigineel) {
-                this.mengmachineElement.appendChild(potElementOrigineel);
-                potElementOrigineel.dataset.potStatus = 'in-mixer';
-                this.mengmachineElement.dataset.mixerStatus = 'bezet';
+                // kijken of er wel dingen in zitten
+                if (potElementOrigineel.hasChildNodes()) {
+                    this.mengmachineElement.appendChild(potElementOrigineel);
+                    potElementOrigineel.dataset.potStatus = 'in-mixer';
+                    this.mengmachineElement.dataset.mixerStatus = 'bezet';
+                    // anders kan je draggen, maar nergens laten droppen, iets netter
+                    potElementOrigineel.draggable = false;
+                } else {
+                    alert('Er zit niks in de pot');
+                }
             } else {
                 alert(`Fout: Origineel pot element met ID ${potId} NIET gevonden!`);
             }
         } else {
             alert('Fout: Geen pot ID ontvangen in dataTransfer!');
         }
+    }
+
+    resetStatus() {
+        this.mengmachineElement.dataset.mixerStatus = 'idle';
+    }
+
+    getAantalActieveMachines() {
+        // haal de bijbehorende meng machine hal zelf op
+        const mengmachineHal = this.mengmachineElement.parentNode.parentNode;
+
+        // pak alle machines daar van
+        const machines = mengmachineHal.querySelectorAll('.mengmachine');
+
+        // filter op de actieve machines
+        const actieveMachines = Array.from(machines).filter(machine => {
+            return machine.dataset.mixerStatus === 'mixen';
+        });
+
+        // geef de lengte van de array (de actieve machines dus) terug
+        return actieveMachines.length;
     }
 }
 

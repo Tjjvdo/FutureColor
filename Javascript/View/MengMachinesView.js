@@ -13,7 +13,7 @@ class MengMachinesView{
     MaakNieuweMengmachineHal2(machine, controller) {
         const machineElement = this.MaakNieuweMachine(machine, controller);
         
-        this.mengmachinesHal1Container.appendChild(machineElement);
+        this.mengmachinesHal2Container.appendChild(machineElement);
     }
 
     MaakNieuweMachine(machine, controller){
