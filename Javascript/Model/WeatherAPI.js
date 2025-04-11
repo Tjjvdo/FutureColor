@@ -45,9 +45,6 @@ class WeatherAPI {
 
                 weerstypeSelect.value = this.bepaalWeertype(weer.samenv);
                 weerstypeSelect.dispatchEvent(new Event('change'));
-
-                console.log(`Temperatuur: ${weer.temp}°C`);
-                console.log(`Weertype: ${weer.samenv}`);
             } else {
                 console.error("Geen weerdata ontvangen.");
             }
