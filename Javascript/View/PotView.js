@@ -4,19 +4,19 @@ class PotView{
         this.pottenHal2Container = document.getElementById('potten-hal-2');
     }
 
-    MaakNieuwePotHal1(pot){
-        const potElement = this.MaakNieuwePot(pot);
+    MaakNieuwePotHal1(pot, controller){
+        const potElement = this.MaakNieuwePot(pot, controller);
 
         this.pottenHal1Container.appendChild(potElement);
     }
 
-    MaakNieuwePotHal2(pot){
-        const potElement = this.MaakNieuwePot(pot);
+    MaakNieuwePotHal2(pot, controller){
+        const potElement = this.MaakNieuwePot(pot, controller);
 
         this.pottenHal2Container.appendChild(potElement);
     }
 
-    MaakNieuwePot(pot){
+    MaakNieuwePot(pot, controller){
         const potElement = document.createElement('div');
         potElement.classList.add('pot');
         potElement.title = `Lege pot`;
@@ -42,7 +42,7 @@ class PotView{
 
                 if (ingredientElementOrigineel) {
                     const ingredientChildren = potElement.querySelectorAll('.ingrediënt');
-                    if (!pot.isDezelfdeMengSnelheid(ingredientChildren, ingredientElementOrigineel)) {
+                    if (!controller.isDezelfdeMengSnelheidPot(pot, ingredientChildren, ingredientElementOrigineel)) {
                         return;
                     }
 
@@ -60,11 +60,21 @@ class PotView{
         });
 
         potElement.addEventListener('dragstart', (event) => {
-            console.log(pot.potId);
             event.dataTransfer.setData('text/plain', potElement.dataset.potId);
         });
 
         return potElement;
+    }
+
+    VerplaatsPotNaarGemengdeHal(ingredientElement, potElementOrigineel, gemengdePottenHal){
+        const ingredientElementKloon = ingredientElement.cloneNode(true);
+        potElementOrigineel.innerHTML = "";
+        potElementOrigineel.appendChild(ingredientElementKloon);
+
+        ingredientElementKloon.draggable = false;
+
+        gemengdePottenHal.appendChild(potElementOrigineel);
+        potElementOrigineel.dataset.potStatus = 'in-hal';
     }
 }
 

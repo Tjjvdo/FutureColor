@@ -3,7 +3,8 @@ class IngredientView{
         this.nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
         this.ingredientFormulier = document.getElementById('ingredient-formulier');
         this.ingredientenLijstContainer = document.getElementById('ingredienten-lijst');
-        
+        this.gemengdeIngredientenLijstContainer = document.getElementById('gemengde-ingredienten-lijst');
+
     }
 
     ToonNieuwIngredientForm(){
@@ -16,7 +17,25 @@ class IngredientView{
         this.nieuwIngredientKnop.style.display = 'block';
     }
 
-    NieuwIngredientToevoegen(ingredient){
+    NieuwIngredientToevoegenAanIngredientenLijst(ingredient){
+        const ingredientElement = this.MaakNieuwIngredient(ingredient);
+
+        this.ingredientenLijstContainer.appendChild(ingredientElement);
+
+        this.ingredientFormulier.reset();
+        this.ingredientFormulier.style.display = 'none';
+        this.nieuwIngredientKnop.style.display = 'block';
+    }
+
+    NieuwIngredientToevoegenAanGemengdeLijst(ingredient){
+        const ingredientElement = this.MaakNieuwIngredient(ingredient);
+
+        this.gemengdeIngredientenLijstContainer.appendChild(ingredientElement);
+
+        return ingredientElement;
+    }
+
+    MaakNieuwIngredient(ingredient){
         const ingredientElement = document.createElement('div');
         ingredientElement.classList.add('ingrediënt');
         ingredientElement.title = `Mengtijd: ${ingredient.mengtijd}ms, Mengsnelheid: ${ingredient.mengsnelheid}, Structuur: ${ingredient.structuur}`;
@@ -39,15 +58,11 @@ class IngredientView{
         ingredientElement.dataset.ingredientId = ingredient.id;
         ingredientElement.draggable = true;
 
-        this.ingredientenLijstContainer.appendChild(ingredientElement);
-
         ingredientElement.addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', ingredient.id);
         });
 
-        this.ingredientFormulier.reset();
-        this.ingredientFormulier.style.display = 'none';
-        this.nieuwIngredientKnop.style.display = 'block';
+        return ingredientElement;
     }
 
     MarkeerFoutiefVeld(field){

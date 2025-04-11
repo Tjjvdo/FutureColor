@@ -1,30 +1,6 @@
-const gemengdeIngredientenLijstContainer = document.getElementById('gemengde-ingredienten-lijst');
-
 class Mengmachine {
-    constructor(gemengdePottenHal) {
+    constructor(gemengdePottenHal){
         this.gemengdePottenHal = gemengdePottenHal;
-        this.machineContainer = document.createElement('div');
-        this.machineContainer.classList.add('machine-container');
-
-        this.mengmachineElement = document.createElement('div');
-        this.mengmachineElement.classList.add('mengmachine');
-        this.mengmachineElement.title = `Lege mengmachine`;
-        this.mengmachineElement.dataset.mixerStatus = 'idle';
-
-        this.machineContainer.appendChild(this.mengmachineElement);
-
-        this.mixKnop = document.createElement('button');
-        this.mixKnop.textContent = 'Mix!';
-        this.mixKnop.classList.add('mix-knop');
-        this.machineContainer.appendChild(this.mixKnop);
-
-        this.addEventListeners();
-    }
-
-    addEventListeners() {
-        this.mixKnop.addEventListener('click', () => this.handleMixClick());
-        this.mengmachineElement.addEventListener('dragover', (event) => this.handleDragOver(event));
-        this.mengmachineElement.addEventListener('drop', (event) => this.handleDrop(event));
     }
 
     valideerMixKleur(rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
@@ -116,50 +92,13 @@ class Mengmachine {
                     mengsnelheid: nieuweMengsnelheid,
                     kleur: nieuweKleur,
                     structuur: nieuweStructuur,
-                    id: Date.now()
                 };
 
-                const ingredientElement = this.creëerIngredientElement(nieuwIngredient);
-                gemengdeIngredientenLijstContainer.appendChild(ingredientElement);
-
-                const ingredientElementKloon = ingredientElement.cloneNode(true);
-                potElementOrigineel.innerHTML = "";
-                potElementOrigineel.appendChild(ingredientElementKloon);
-
-                ingredientElementKloon.draggable = false;
-
-                this.gemengdePottenHal.appendChild(potElementOrigineel);
-                potElementOrigineel.dataset.potStatus = 'in-hal';
                 this.mengmachineElement.dataset.mixerStatus = 'idle';
+
+                return [nieuwIngredient, potElementOrigineel, this.gemengdePottenHal];
             }
         }
-    }
-
-    creëerIngredientElement(ingredientData) {
-        // Maak een visuele representatie van het ingrediënt
-        const ingredientElement = document.createElement('div');
-        ingredientElement.classList.add('ingrediënt');
-        ingredientElement.title = `Mengtijd: ${ingredientData.mengtijd}ms, Mengsnelheid: ${ingredientData.mengsnelheid}, Structuur: ${ingredientData.structuur}`;
-        ingredientElement.style.backgroundColor = `rgb(${ingredientData.kleur.rood}, ${ingredientData.kleur.groen}, ${ingredientData.kleur.blauw})`;
-
-        if (ingredientData.structuur === 'korrel') {
-            ingredientElement.style.borderStyle = 'dotted';
-        } else if (ingredientData.structuur === 'grove-korrel') {
-            ingredientElement.style.borderStyle = 'dashed';
-            ingredientElement.style.borderWidth = '2px';
-        } else if (ingredientData.structuur === 'slijmerig') {
-            ingredientElement.style.borderRadius = '50%';
-        }
-
-        ingredientElement.dataset.ingredientId = ingredientData.id;
-        ingredientElement.draggable = true;
-
-        ingredientElement.addEventListener('dragstart', (event) => {
-            const ingredientId = ingredientElement.dataset.ingredientId;
-            event.dataTransfer.setData('text/plain', ingredientId);
-        });
-
-        return ingredientElement;
     }
 
     handleDragOver(event) {
@@ -188,10 +127,6 @@ class Mengmachine {
         } else {
             alert('Fout: Geen pot ID ontvangen in dataTransfer!');
         }
-    }
-
-    getElement() {
-        return this.machineContainer;
     }
 }
 
