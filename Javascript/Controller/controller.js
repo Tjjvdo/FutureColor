@@ -1,306 +1,237 @@
+import View from '../View/View.js';
+import IngredientView from '../View/IngredientView.js';
+import PotView from '../View/PotView.js';
+import MengMachinesView from '../View/MengMachinesView.js';
+import TestGridView from '../View/TestGridView.js';
+import WeerView from '../View/WeerView.js';
+
 import WeatherAPI from '../Model/WeatherAPI.js';
 import Ingredient from '../Model/ingredient.js';
 import Pot from '../Model/pot.js';
 import Mengmachine from '../Model/mengmachine.js';
-import TestGrid from '../Model/testgrid.js';
+import Vierkant from '../Model/vierkant.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Weather API
-    const weatherAPI = new WeatherAPI();
+class Controller{
+    constructor(){
+        // Views
+        this.view = new View();
+        this.ingredientView = new IngredientView();
+        this.potView = new PotView();
+        this.mengMachinesView = new MengMachinesView();
+        this.testGridView = new TestGridView();
+        this.weerView = new WeerView();
+
+        // Weather API
+        this.weatherAPI = new WeatherAPI();
+        
+        // Navigatie
+        this.MengHal1Knop = document.getElementById('MengHal1');
+        this.MengHal2Knop = document.getElementById('MengHal2');
+        this.KleurenTestKnop = document.getElementById('KleurenTest');
+        
+        this.MengHal1Knop.addEventListener('click', () => {
+            this.view.ToonMengHal1();
+        });
+        
+        this.MengHal2Knop.addEventListener('click', () => {
+            this.view.ToonMengHal2();
+        });
+        
+        this.KleurenTestKnop.addEventListener('click', () => {
+            this.view.ToonKleurenTest();
+        });
+
+        // Ingrediënten, potten en mengmachines knoppen
+        this.nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
+        this.ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
+        this.annuleerIngredientKnop = document.getElementById('annuleer-ingredient-knop');
+        this.nieuwePotKnopHal1 = document.getElementById('nieuwe-pot-knop-hal-1');
+        this.nieuwePotKnopHal2 = document.getElementById('nieuwe-pot-knop-hal-2');
+        this.nieuweMengmachineKnopHal1 = document.getElementById('nieuwe-mengmachine-knop-hal-1');
+        this.nieuweMengmachineKnopHal2 = document.getElementById('nieuwe-mengmachine-knop-hal-2');
+        this.gemengdePottenHal1 = document.getElementById('gemengde-potten-hal-1');
+        this.gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
+        this.nieuweKleurenTestGridKnop = document.getElementById('nieuw-kleuren-test-grid-knop');
+        this.gridGrootteInput = document.getElementById('grid-grootte-input');
+
+        // Ingredienten
+        this.nieuwIngredientKnop.addEventListener('click', () => {
+            this.ingredientView.ToonNieuwIngredientForm();
+        });
+        
+        this.annuleerIngredientKnop.addEventListener('click', () => {
+            this.ingredientView.VerbergIngredientForm();
+        });
+        
+        this.ingredientToevoegenKnop.addEventListener('click', () => {
+            this.ingredientView.ResetErrors();
+        
+            const mengtijdInput = document.getElementById('mengtijd');
+            const mengsnelheidInput = document.getElementById('mengsnelheid');
+            const rgbRoodInput = document.getElementById('rgb-rood');
+            const rgbGroenInput = document.getElementById('rgb-groen');
+            const rgbBlauwInput = document.getElementById('rgb-blauw');
+            const structuurInput = document.getElementById('structuur');
+        
+            const rood = parseInt(rgbRoodInput.value);
+            const groen = parseInt(rgbGroenInput.value);
+            const blauw = parseInt(rgbBlauwInput.value);
+            const mengtijd = parseInt(mengtijdInput.value);
+            const mengsnelheid = parseInt(mengsnelheidInput.value);
+            const structuur = structuurInput.value;
+        
+            if (this.valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur)) {
+                return;
+            }
+        
+            const kleur = { type: 'rgb', rood, groen, blauw };
+            const nieuwIngredient = new Ingredient(mengtijd, mengsnelheid, kleur, structuur);
+        
+            this.ingredientView.NieuwIngredientToevoegenAanIngredientenLijst(nieuwIngredient);
+        });
     
-    // Navigatie
-    const MengHal1Knop = document.getElementById('MengHal1');
-    const MengHal2Knop = document.getElementById('MengHal2');
-    const KleurenTestKnop = document.getElementById('KleurenTest');
-    const Hal1 = document.getElementById('hal-1');
-    const Hal2 = document.getElementById('hal-2');
-    const KleurenTest = document.getElementById('kleurentest-pagina');
+        // Potten
+        this.nieuwePotKnopHal1.addEventListener('click', () => {
+            const pot = new Pot();
+    
+            this.potView.MaakNieuwePotHal1(pot, this);
+        });
+    
+        this.nieuwePotKnopHal2.addEventListener('click', () => {
+            const pot = new Pot();
+    
+            this.potView.MaakNieuwePotHal2(pot, this);
+        });
+    
+        // Mengmachines
+        this.nieuweMengmachineKnopHal1.addEventListener('click', () => {
+            const machine = new Mengmachine(this.gemengdePottenHal1);
+    
+            this.mengMachinesView.MaakNieuweMengmachineHal1(machine, this);
+        });
+    
+        this.nieuweMengmachineKnopHal2.addEventListener('click', () => {
+            const machine = new Mengmachine(this.gemengdePottenHal1);
+    
+            this.mengMachinesView.MaakNieuweMengmachineHal2(machine, this);
+        });
 
-    MengHal1Knop.addEventListener('click', () => {
-        MengHal1Knop.classList.add('active');
-        Hal1.classList.add('active');
+        // Test grid
+        this.nieuweKleurenTestGridKnop.addEventListener('click', () => {
+            const gridGrote = parseInt(this.gridGrootteInput.value);
+            const vierkantjes = [];
+            for (let i = 0; i < gridGrote * gridGrote; i++) {
+                let vierkant = new Vierkant();
+                vierkantjes.push(vierkant);
+            }
+            this.testGridView.MaakTestGrid(vierkantjes, gridGrote, this);
+        });
 
-        if (MengHal2Knop.classList.contains('active')) {
-            MengHal2Knop.classList.remove('active');
-        }
-        if (Hal2.classList.contains('active')) {
-            Hal2.classList.remove('active');
-        }
+        // Weer & status
+        this.temperatuurInput = document.getElementById("temperatuur");
+        this.weerstypeSelect = document.getElementById("weerstype");
 
-        if (KleurenTestKnop.classList.contains('active')) {
-            KleurenTestKnop.classList.remove('active');
-        }
-        if (KleurenTest.classList.contains('active')) {
-            KleurenTest.classList.remove('active');
-        }
-    });
+        this.temperatuurInput.addEventListener('change', () => {
+            let tempValue = parseFloat(this.temperatuurInput.value);
+            
+            if(tempValue < -30){
+                tempValue = -30;
+            }else if(tempValue > 60){
+                tempValue = 60;
+            }
+            
+            this.weerView.voegTemperatuurEffectenLijstToe(tempValue);
+        });
 
-    MengHal2Knop.addEventListener('click', () => {
-        MengHal2Knop.classList.add('active');
-        Hal2.classList.add('active');
+        this.weerstypeSelect.addEventListener('change', () => {
+            let weertype = this.weerstypeSelect.value;
 
-        if (MengHal1Knop.classList.contains('active')) {
-            MengHal1Knop.classList.remove('active');
-        }
-        if (Hal1.classList.contains('active')) {
-            Hal1.classList.remove('active');
-        }
+            this.weerView.voegWeerstypeEffectenLijstToe(weertype);
+        });
+    }
 
-        if (KleurenTestKnop.classList.contains('active')) {
-            KleurenTestKnop.classList.remove('active');
-        }
-        if (KleurenTest.classList.contains('active')) {
-            KleurenTest.classList.remove('active');
-        }
-    });
-
-    KleurenTestKnop.addEventListener('click', () => {
-        KleurenTestKnop.classList.add('active');
-        KleurenTest.classList.add('active');
-
-        if (MengHal1Knop.classList.contains('active')) {
-            MengHal1Knop.classList.remove('active');
-        }
-        if (Hal1.classList.contains('active')) {
-            Hal1.classList.remove('active');
-        }
-
-        if (MengHal2Knop.classList.contains('active')) {
-            MengHal2Knop.classList.remove('active');
-        }
-        if (Hal2.classList.contains('active')) {
-            Hal2.classList.remove('active');
-        }
-    });
-
-    // Ingrediënten, potten en mengmachines + respectievelijke knoppen
-    const nieuwIngredientKnop = document.getElementById('nieuw-ingredient-knop');
-    const ingredientFormulier = document.getElementById('ingredient-formulier');
-    const ingredientToevoegenKnop = document.getElementById('ingredient-toevoegen-knop');
-    const annuleerIngredientKnop = document.getElementById('annuleer-ingredient-knop');
-    const ingredientenLijstContainer = document.getElementById('ingredienten-lijst');
-    const nieuwePotKnopHal1 = document.getElementById('nieuwe-pot-knop-hal-1');
-    const pottenHal1Container = document.getElementById('potten-hal-1');
-    const nieuwePotKnopHal2 = document.getElementById('nieuwe-pot-knop-hal-2');
-    const pottenHal2Container = document.getElementById('potten-hal-2');
-    const nieuweMengmachineKnopHal1 = document.getElementById('nieuwe-mengmachine-knop-hal-1');
-    const mengmachinesHal1Container = document.getElementById('mengmachines-hal-1');
-    const nieuweMengmachineKnopHal2 = document.getElementById('nieuwe-mengmachine-knop-hal-2');
-    const mengmachinesHal2Container = document.getElementById('mengmachines-hal-2');
-    const gemengdePottenHal1 = document.getElementById('gemengde-potten-hal-1');
-    const gemengdePottenHal2 = document.getElementById('gemengde-potten-hal-2');
-    const nieuweKleurenTestGridKnop = document.getElementById('nieuw-kleuren-test-grid-knop');
-    const kleurenGridContainer = document.getElementById('kleur-grid');
-    const gridGrootteInput = document.getElementById('grid-grootte-input');
-
-    nieuwIngredientKnop.addEventListener('click', () => {
-        ingredientFormulier.style.display = 'block';
-        nieuwIngredientKnop.style.display = 'none';
-    });
-
-    annuleerIngredientKnop.addEventListener('click', () => {
-        ingredientFormulier.style.display = 'none';
-        nieuwIngredientKnop.style.display = 'block';
-    });
-
-    ingredientToevoegenKnop.addEventListener('click', () => {
-        resetFoutmeldingen();
-
-        const mengtijdInput = document.getElementById('mengtijd');
-        const mengsnelheidInput = document.getElementById('mengsnelheid');
-        const rgbRoodInput = document.getElementById('rgb-rood');
-        const rgbGroenInput = document.getElementById('rgb-groen');
-        const rgbBlauwInput = document.getElementById('rgb-blauw');
-        const structuurInput = document.getElementById('structuur');
-
-        const rood = parseInt(rgbRoodInput.value);
-        const groen = parseInt(rgbGroenInput.value);
-        const blauw = parseInt(rgbBlauwInput.value);
-        const mengtijd = parseInt(mengtijdInput.value);
-        const mengsnelheid = parseInt(mengsnelheidInput.value);
-        const structuur = structuurInput.value;
-
-        if (valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur)) {
-            return;
-        }
-
-        const kleur = { type: 'rgb', rood, groen, blauw };
-        const nieuwIngredient = new Ingredient(mengtijd, mengsnelheid, kleur, structuur);
-
-        const ingredientElement = nieuwIngredient.creëerElement();
-        ingredientenLijstContainer.appendChild(ingredientElement);
-
-        ingredientFormulier.reset();
-        ingredientFormulier.style.display = 'none';
-        nieuwIngredientKnop.style.display = 'block';
-    });
-
-    function valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
+    // Validatie functie
+    valideerVelden(mengtijdInput, mengsnelheidInput, rgbRoodInput, rgbGroenInput, rgbBlauwInput, rood, groen, blauw, mengtijd, mengsnelheid, structuur) {
         let heeftFouten = false;
         let foutmelding = "De volgende velden zijn verplicht en moeten correct ingevuld zijn:\n";
-
+    
         if (isNaN(mengtijd) || mengtijd <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengtijd (moet een getal groter dan 0 zijn)\n";
-            markeerFoutiefVeld(mengtijdInput);
+            this.ingredientView.MarkeerFoutiefVeld(mengtijdInput);
         }
-
+    
         if (isNaN(mengsnelheid) || mengsnelheid <= 0) {
             heeftFouten = true;
             foutmelding += "- Mengsnelheid (moet een getal groter dan 0 zijn)\n";
-            markeerFoutiefVeld(mengsnelheidInput);
+            this.ingredientView.MarkeerFoutiefVeld(mengsnelheidInput);
         }
-
+    
         if (isNaN(rood) || rood < 0 || rood > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Rood (moet een getal tussen 0 en 255 zijn)\n";
-            markeerFoutiefVeld(rgbRoodInput);
+            this.ingredientView.MarkeerFoutiefVeld(rgbRoodInput);
         }
-
+    
         if (isNaN(groen) || groen < 0 || groen > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Groen (moet een getal tussen 0 en 255 zijn)\n";
-            markeerFoutiefVeld(rgbGroenInput);
+            this.ingredientView.MarkeerFoutiefVeld(rgbGroenInput);
         }
-
+    
         if (isNaN(blauw) || blauw < 0 || blauw > 255) {
             heeftFouten = true;
             foutmelding += "- RGB Blauw (moet een getal tussen 0 en 255 zijn)\n";
-            markeerFoutiefVeld(rgbBlauwInput);
+            this.ingredientView.MarkeerFoutiefVeld(rgbBlauwInput);
         }
-
+    
         if (!structuur) {
             heeftFouten = true;
             foutmelding += "- Structuur (selecteer een structuur)\n";
-            markeerFoutiefVeld(structuurSelect);
+            this.ingredientView.MarkeerFoutiefVeld(structuurSelect);
         }
-
+    
         if (heeftFouten) {
             return true;
         }
     }
 
-    function markeerFoutiefVeld(veld) {
-        veld.classList.add('fout-veld');
+    // Pot functies
+    isDezelfdeMengSnelheidPot(pot, ingredientChildren, ingredientElementOrigineel){
+        return pot.isDezelfdeMengSnelheid(ingredientChildren, ingredientElementOrigineel);
     }
 
-    function resetFoutmeldingen() {
-        const foutieveVelden = document.querySelectorAll('.fout-veld');
-        foutieveVelden.forEach(veld => {
-            veld.classList.remove('fout-veld');
-        });
+    // Mengmachine functies
+    handleMixClick(machine){
+        const [nieuwIngredient, potElementOrigineel, gemengdePottenHal] = machine.handleMixClick();
+        const gemengdeIngredient = new Ingredient(nieuwIngredient.mengtijd, nieuwIngredient.mengsnelheid, nieuwIngredient.kleur, nieuwIngredient.structuur);
+
+        const ingredientElement = this.ingredientView.NieuwIngredientToevoegenAanGemengdeLijst(gemengdeIngredient);
+
+        this.potView.VerplaatsPotNaarGemengdeHal(ingredientElement, potElementOrigineel, gemengdePottenHal);
     }
 
-    nieuwePotKnopHal1.addEventListener('click', () => {
-        const pot = new Pot();
-        const potElement = pot.getElement();
+    handleMixDragOver(machine, event){
+        machine.handleDragOver(event);
+    }
 
-        pottenHal1Container.appendChild(potElement);
-    });
+    handleMixDrop(machine, event){
+        machine.handleDrop(event);
+    }
 
-    nieuwePotKnopHal2.addEventListener('click', () => {
-        const pot = new Pot();
-        const potElement = pot.getElement();
+    // Testgrid functies
+    handleVierkantDrop(vierkantje, event){
+        const ingredientElementOrigineel = vierkantje.addDropListener(event);
 
-        pottenHal2Container.appendChild(potElement);
-    });
-
-    nieuweMengmachineKnopHal1.addEventListener('click', () => {
-        const machine = new Mengmachine(gemengdePottenHal1);
-        const machineContainer = machine.getElement();
-
-        mengmachinesHal1Container.appendChild(machineContainer);
-    });
-
-    nieuweMengmachineKnopHal2.addEventListener('click', () => {
-        const machine = new Mengmachine(gemengdePottenHal2);
-        const machineContainer = machine.getElement();
-
-        mengmachinesHal2Container.appendChild(machineContainer);
-    });
-
-    nieuweKleurenTestGridKnop.addEventListener('click', () => {
-        const gridGrote = parseInt(gridGrootteInput.value);
-        const vierkantBreedte = 85;
-
-        const testGrid = new TestGrid(gridGrote);
-        let testGridVierkantjes = testGrid.getElementen();
-
-        kleurenGridContainer.innerHTML = '';
-        testGridVierkantjes.forEach(vierkantje => {
-            kleurenGridContainer.appendChild(vierkantje);
-        });
-
-        kleurenGridContainer.style.maxWidth = `${gridGrote * vierkantBreedte}px`;
-    });
-
-    // weer & status
-    const invloedenUl = document.getElementById("invloedenLijst");
-    const temperatuurInput = document.getElementById("temperatuur");
-    const weerstypeSelect = document.getElementById("weerstype");
-
-    temperatuurInput.addEventListener('change', () => {
-        let tempValue = parseFloat(temperatuurInput.value);
-
-        if(tempValue < -30){
-            temperatuurInput.value = -30
-            tempValue = -30;
-        }else if(tempValue > 60){
-            temperatuurInput.value = 60;
-            tempValue = 60;
-        }
-        
-        let invloedText = document.createElement("li");
-        invloedText.setAttribute("id", "temperatuursinvloed");
-        let erIsInvloed = false;
-        
-        if(tempValue > 35){
-            invloedText.textContent= "Maximaal 1 mengmachine per hal mag draaien wegens hoge temperatuur!";
-            erIsInvloed = true;
-        }
-
-        if(tempValue < 10){
-            invloedText.textContent = "Alle mengtijden zijn 15% langer wegens lage temperatuur!";
-            erIsInvloed = true;
-        }
-
-        let liElementen = invloedenUl.getElementsByTagName('li');
-
-        verwijderWeersInvloeden(liElementen, "temperatuursinvloed");
-
-        if(erIsInvloed){
-            invloedenUl.insertBefore(invloedText, invloedenUl.children[0]);
-        }
-    });
-
-    weerstypeSelect.addEventListener('change', () => {
-        let weertype = weerstypeSelect.value;
-
-        let liElementen = invloedenUl.getElementsByTagName('li');
-
-        let invloedText = document.createElement("li");
-        invloedText.setAttribute("id", "weerstypeInvloed");
-        let erIsInvloed = false;
-
-        verwijderWeersInvloeden(liElementen, "weerstypeInvloed");
-
-        if(weertype === "regen" || weertype === "sneeuw"){
-            invloedText.textContent= "Alle mengtijden zijn 10% langer omdat het " + weertype + "t!";
-            erIsInvloed = true;
-        }
-
-        if(erIsInvloed){
-            invloedenUl.appendChild(invloedText, invloedenUl.children[0]);
-        }
-    });
-
-    function verwijderWeersInvloeden(liElementen, liId){
-        if (liElementen.length > 0) {
-            Array.from(liElementen).forEach((li) => {
-                if(li.id && li.id === liId){
-                    li.remove();
-                }
-            });
+        if(ingredientElementOrigineel){
+            this.testGridView.cloneKleur(vierkantje, ingredientElementOrigineel)
         }
     }
-});
+
+    handleVierkantClick(vierkantje){
+        const [ingredientAchtergrond, triadicRgbColors, triadicHslColors] = vierkantje.addClickListener();
+        this.testGridView.showTriadicColorsPopup(vierkantje, ingredientAchtergrond, triadicRgbColors, triadicHslColors);
+    }
+}
+
+export default Controller;
