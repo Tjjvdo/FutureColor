@@ -13,7 +13,7 @@ class MengMachinesView{
     MaakNieuweMengmachineHal2(machine, controller) {
         const machineElement = this.MaakNieuweMachine(machine, controller);
         
-        this.mengmachinesHal1Container.appendChild(machineElement);
+        this.mengmachinesHal2Container.appendChild(machineElement);
     }
 
     MaakNieuweMachine(machine, controller){
@@ -41,6 +41,15 @@ class MengMachinesView{
         machine.mixKnop.addEventListener('click', () => controller.handleMixClick(machine));
         machine.mengmachineElement.addEventListener('dragover', (event) => controller.handleMixDragOver(machine, event));
         machine.mengmachineElement.addEventListener('drop', (event) => controller.handleMixDrop(machine, event));
+    }
+
+    startAnimatie(machine) {
+        // door de klasse gaan ze draaien
+        machine.mengmachineElement.classList.add('mix-animatie');
+    }
+
+    stopAnimatie(machine) {
+        machine.mengmachineElement.classList.remove('mix-animatie');
     }
 }
 

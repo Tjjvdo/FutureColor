@@ -212,3 +212,17 @@ main {
     margin-top: 10px;
     color: #555;
 }
+
+.mix-animatie {
+    /* herhaal de draai animatie oneindig keer */
+    animation: draai 2s linear infinite;
+}
+
+@keyframes draai {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
