@@ -46,11 +46,10 @@ class TestGridView{
     }
 
     showTriadicColorsPopup(clickedthis, originalRgb, triadicRgbColors, triadicHslColors) {
-        console.log(clickedthis);
-
         const popupContainer = document.createElement('div');
         popupContainer.classList.add('triadic-popup');
         popupContainer.style.position = 'absolute';
+        // anders pakt hij het element niet
         popupContainer.style.left = `${clickedthis.vierkantElement.offsetLeft + clickedthis.vierkantElement.offsetWidth + 10}px`;
         popupContainer.style.top = `${clickedthis.vierkantElement.offsetTop - 15}px`;
 
