@@ -214,15 +214,20 @@ class Controller {
                 const [nieuwIngredient, potElementOrigineel, gemengdePottenHal] = result;
                 const gemengdeIngredient = new Ingredient(nieuwIngredient.mengtijd, nieuwIngredient.mengsnelheid, nieuwIngredient.kleur, nieuwIngredient.structuur);
 
+                // start animatie in de view
+                this.mengMachinesView.startAnimatie(machine);
 
-                //bereken de mengtijd
+                // bereken de mengtijd
                 let mengtijd = nieuwIngredient.mengtijd * this.weatherAPI.getTijdMultiplier();
 
-                //stel deze functie uit voor de mengtijd
+                // stel deze functie uit voor de mengtijd
                 setTimeout(() => {
                     const ingredientElement = this.ingredientView.NieuwIngredientToevoegenAanGemengdeLijst(gemengdeIngredient);
                     this.potView.VerplaatsPotNaarGemengdeHal(ingredientElement, potElementOrigineel, gemengdePottenHal);
                     machine.resetStatus();
+                    
+                    // stop animatie in de view
+                    this.mengMachinesView.stopAnimatie(machine);
                 }, mengtijd);
             }
         }

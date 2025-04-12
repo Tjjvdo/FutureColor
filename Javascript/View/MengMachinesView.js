@@ -42,6 +42,15 @@ class MengMachinesView{
         machine.mengmachineElement.addEventListener('dragover', (event) => controller.handleMixDragOver(machine, event));
         machine.mengmachineElement.addEventListener('drop', (event) => controller.handleMixDrop(machine, event));
     }
+
+    startAnimatie(machine) {
+        // door de klasse gaan ze draaien
+        machine.mengmachineElement.classList.add('mix-animatie');
+    }
+
+    stopAnimatie(machine) {
+        machine.mengmachineElement.classList.remove('mix-animatie');
+    }
 }
 
 export default MengMachinesView;
