@@ -49,10 +49,9 @@ class TestGridView{
         const popupContainer = document.createElement('div');
         popupContainer.classList.add('triadic-popup');
         popupContainer.style.position = 'absolute';
-        // anders pakt hij het element niet
+
         popupContainer.style.left = `${clickedthis.vierkantElement.offsetLeft + clickedthis.vierkantElement.offsetWidth + 10}px`;
         popupContainer.style.top = `${clickedthis.vierkantElement.offsetTop - 15}px`;
-
 
         const originalColorDiv = document.createElement('div');
         originalColorDiv.classList.add('triadic-color-box');
@@ -75,7 +74,6 @@ class TestGridView{
         const kleurentestPagina = document.getElementById('kleurentest-pagina');
         kleurentestPagina.appendChild(popupContainer);
 
-        // bij wegkliken verdwijnt de pop-up
         const removePopupListener = (event) => {
             if (!popupContainer.contains(event.target)) {
                 popupContainer.remove();

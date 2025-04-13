@@ -31,7 +31,6 @@ class PotView{
         potElement.addEventListener('drop', (event) => {
             event.preventDefault();
 
-            //vorige werkte helemaal niet eens...
             if (potElement.dataset.potStatus === 'in-mixer') {
                 return;
             }
@@ -50,13 +49,16 @@ class PotView{
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
                     potElement.appendChild(ingredientElementKloon);
 
+                    const gooSplash = new Audio('Geluiden/gooey-squish.mp3');
+                    gooSplash.play();
+
                     ingredientElementKloon.draggable = false;
                 } else {
-                    alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
+                    controller.handleError(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
                 }
 
             } else {
-                alert('Fout: Geen ingredient ID ontvangen in dataTransfer!');
+                controller.handleError('Fout: Geen ingredient ID ontvangen in dataTransfer!');
             }
         });
 
@@ -76,7 +78,6 @@ class PotView{
 
         gemengdePottenHal.appendChild(potElementOrigineel);
         potElementOrigineel.dataset.potStatus = 'in-hal';
-        // weer draggable maken zodat je verder kan mixen
         potElementOrigineel.draggable = true;
     }
 }

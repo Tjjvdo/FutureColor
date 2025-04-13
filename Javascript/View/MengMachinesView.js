@@ -43,13 +43,26 @@ class MengMachinesView{
         machine.mengmachineElement.addEventListener('drop', (event) => controller.handleMixDrop(machine, event));
     }
 
-    startAnimatie(machine) {
-        // door de klasse gaan ze draaien
-        machine.mengmachineElement.classList.add('mix-animatie');
+    startAnimatie(machine, draaisnelheidInSeconden) {
+        machine.mengmachineElement.style.animation = `draai ${draaisnelheidInSeconden}s linear infinite`;
+
+        const startGeluid = new Audio('Geluiden/lawnmower-starting-sound.mp3');
+
+        startGeluid.currentTime = 2;
+        startGeluid.play();
+
+        setTimeout(() => {
+            startGeluid.pause();
+        }, draaisnelheidInSeconden * 10000);
     }
 
     stopAnimatie(machine) {
-        machine.mengmachineElement.classList.remove('mix-animatie');
+        machine.mengmachineElement.style.animation = '';
+
+        const stopGeluid = new Audio('Geluiden/cararriveandstop.mp3');
+
+        stopGeluid.currentTime = 13;
+        stopGeluid.play();
     }
 }
 
