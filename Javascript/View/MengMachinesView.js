@@ -50,9 +50,11 @@ class MengMachinesView{
         // Audio afspelen bij het starten van de animatie
         const startGeluid = new Audio('Geluiden/lawnmower-starting-sound.mp3');
 
+        // zodat je alleen het gewilde stuk hebt
         startGeluid.currentTime = 0.2;
         startGeluid.play();
 
+        // niet te lang door gaan
         setTimeout(() => {
             startGeluid.pause();
         }, 1000);
@@ -64,6 +66,7 @@ class MengMachinesView{
         // Audio afspelen bij het stoppen van de animatie
         const stopGeluid = new Audio('Geluiden/cararriveandstop.mp3');
 
+        // zodat je alleen het stoppen hoort
         stopGeluid.currentTime = 13.5;
         stopGeluid.play();
     }

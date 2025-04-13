@@ -50,6 +50,7 @@ class PotView{
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
                     potElement.appendChild(ingredientElementKloon);
 
+                    // Splat
                     const gooSplash = new Audio('Geluiden/gooey-squish.mp3');
                     gooSplash.play();
 
