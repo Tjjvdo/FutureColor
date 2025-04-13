@@ -94,7 +94,6 @@ class Mengmachine {
                     structuur: nieuweStructuur,
                 };
 
-                // moest later op idle worden gezet
                 this.mengmachineElement.dataset.mixerStatus = 'mixen';
 
                 return [nieuwIngredient, potElementOrigineel, this.gemengdePottenHal];
@@ -109,7 +108,6 @@ class Mengmachine {
     handleDrop(event, controller) {
         event.preventDefault();
 
-        // extra status erbij gekomen wanner er iets niet in mag
         let mixerStatus = this.mengmachineElement.dataset.mixerStatus;
         if (mixerStatus === 'bezet' || mixerStatus === 'mixen') {
             return;
@@ -121,12 +119,10 @@ class Mengmachine {
             const potElementOrigineel = document.querySelector(`.pot[data-pot-id="${potId}"]`);
 
             if (potElementOrigineel) {
-                // kijken of er wel dingen in zitten
                 if (potElementOrigineel.hasChildNodes()) {
                     this.mengmachineElement.appendChild(potElementOrigineel);
                     potElementOrigineel.dataset.potStatus = 'in-mixer';
                     this.mengmachineElement.dataset.mixerStatus = 'bezet';
-                    // anders kan je draggen, maar nergens laten droppen, iets netter
                     potElementOrigineel.draggable = false;
                 } else {
                     controller.handleError('Er zit niks in de pot');
@@ -144,18 +140,14 @@ class Mengmachine {
     }
 
     getAantalActieveMachines() {
-        // haal de bijbehorende meng machine hal zelf op
         const mengmachineHal = this.mengmachineElement.parentNode.parentNode;
 
-        // pak alle machines daar van
         const machines = mengmachineHal.querySelectorAll('.mengmachine');
 
-        // filter op de actieve machines
         const actieveMachines = Array.from(machines).filter(machine => {
             return machine.dataset.mixerStatus === 'mixen';
         });
 
-        // geef de lengte van de array (de actieve machines dus) terug
         return actieveMachines.length;
     }
 }

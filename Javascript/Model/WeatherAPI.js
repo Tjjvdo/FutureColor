@@ -65,13 +65,11 @@ class WeatherAPI {
         let multiplier = 1;
 
         if (temperatuurInput.value < 10) {
-            //15% langer mixen
             multiplier += 0.15;
         }
 
         let weertype = weerstypeSelect.value;
         if (weertype === "regen" || weertype === "sneeuw") {
-            //10% langer mixen
             multiplier += 0.1;
         }
 

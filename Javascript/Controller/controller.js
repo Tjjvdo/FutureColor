@@ -203,30 +203,24 @@ class Controller {
 
     // Mengmachine functies
     handleMixClick(machine) {
-        // check of hij niet al aan het mixen is, anders bugt hij
         const mixerStatus = machine.mengmachineElement.dataset.mixerStatus;
-        // check of je mag gaan mixen
+        
         if (mixerStatus !== 'mixen' && !this.weatherAPI.max1Machine() || machine.getAantalActieveMachines() < 1) {
             const result = machine.handleMixClick();
 
-            // geeft anders error als je geen pot in de machine hebt
             if (result) {
                 const [nieuwIngredient, potElementOrigineel, gemengdePottenHal] = result;
                 const gemengdeIngredient = new Ingredient(nieuwIngredient.mengtijd, nieuwIngredient.mengsnelheid, nieuwIngredient.kleur, nieuwIngredient.structuur);
 
-                // start animatie in de view
                 this.mengMachinesView.startAnimatie(machine, 3 / nieuwIngredient.mengsnelheid);
 
-                // bereken de mengtijd
                 let mengtijd = nieuwIngredient.mengtijd * this.weatherAPI.getTijdMultiplier();
 
-                // stel deze functie uit voor de mengtijd
                 setTimeout(() => {
                     const ingredientElement = this.ingredientView.NieuwIngredientToevoegenAanGemengdeLijst(gemengdeIngredient);
                     this.potView.VerplaatsPotNaarGemengdeHal(ingredientElement, potElementOrigineel, gemengdePottenHal);
                     machine.resetStatus();
                     
-                    // stop animatie in de view
                     this.mengMachinesView.stopAnimatie(machine);
                 }, mengtijd);
             }

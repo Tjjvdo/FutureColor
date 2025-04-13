@@ -52,7 +52,7 @@ function rgbToHsl(r, g, b) {
     let h, s, l = (max + min) / 2;
 
     if (max === min) {
-        h = s = 0; // achromatic
+        h = s = 0;
     } else {
         const d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -64,7 +64,7 @@ function rgbToHsl(r, g, b) {
         h /= 6;
     }
 
-    return { h: h * 360, s: s * 100, l: l * 100 }; // Return HSL in degrees, percentage
+    return { h: h * 360, s: s * 100, l: l * 100 }; 
 }
 
 function hslToRgb(h, s, l) {
@@ -93,7 +93,7 @@ function hslToRgb(h, s, l) {
         b = hue2rgb(p, q, h - 1 / 3);
     }
 
-    return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) }; // Return RGB in 0-255 range
+    return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
 }
 
 function getTriadicColorsHsl(hslColor) {
