@@ -51,13 +51,13 @@ class MengMachinesView{
         const startGeluid = new Audio('Geluiden/lawnmower-starting-sound.mp3');
 
         // zodat je alleen het gewilde stuk hebt
-        startGeluid.currentTime = 0.2;
+        startGeluid.currentTime = 2;
         startGeluid.play();
 
         // niet te lang door gaan
         setTimeout(() => {
             startGeluid.pause();
-        }, 1000);
+        }, draaisnelheidInSeconden * 1000);
     }
 
     stopAnimatie(machine) {
@@ -67,7 +67,7 @@ class MengMachinesView{
         const stopGeluid = new Audio('Geluiden/cararriveandstop.mp3');
 
         // zodat je alleen het stoppen hoort
-        stopGeluid.currentTime = 13.5;
+        stopGeluid.currentTime = 13;
         stopGeluid.play();
     }
 }
