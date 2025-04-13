@@ -111,7 +111,7 @@ class Controller {
         });
 
         this.nieuweMengmachineKnopHal2.addEventListener('click', () => {
-            const machine = new Mengmachine(this.gemengdePottenHal1);
+            const machine = new Mengmachine(this.gemengdePottenHal2);
 
             this.mengMachinesView.MaakNieuweMengmachineHal2(machine, this);
         });

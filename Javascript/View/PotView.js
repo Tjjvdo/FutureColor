@@ -31,7 +31,6 @@ class PotView{
         potElement.addEventListener('drop', (event) => {
             event.preventDefault();
 
-            //vorige werkte helemaal niet eens...
             if (potElement.dataset.potStatus === 'in-mixer') {
                 return;
             }
@@ -50,7 +49,6 @@ class PotView{
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
                     potElement.appendChild(ingredientElementKloon);
 
-                    // Splat
                     const gooSplash = new Audio('Geluiden/gooey-squish.mp3');
                     gooSplash.play();
 
@@ -80,7 +78,6 @@ class PotView{
 
         gemengdePottenHal.appendChild(potElementOrigineel);
         potElementOrigineel.dataset.potStatus = 'in-hal';
-        // weer draggable maken zodat je verder kan mixen
         potElementOrigineel.draggable = true;
     }
 }

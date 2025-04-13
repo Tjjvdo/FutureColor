@@ -57,7 +57,7 @@ class MengMachinesView{
         // niet te lang door gaan
         setTimeout(() => {
             startGeluid.pause();
-        }, draaisnelheidInSeconden * 1000);
+        }, draaisnelheidInSeconden * 10000);
     }
 
     stopAnimatie(machine) {
