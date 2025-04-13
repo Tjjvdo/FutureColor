@@ -43,13 +43,13 @@ class MengMachinesView{
         machine.mengmachineElement.addEventListener('drop', (event) => controller.handleMixDrop(machine, event));
     }
 
-    startAnimatie(machine) {
-        // door de klasse gaan ze draaien
-        machine.mengmachineElement.classList.add('mix-animatie');
+    startAnimatie(machine, draaisnelheidInSeconden) {
+        // zo draaien ze met verschillende snelheden
+        machine.mengmachineElement.style.animation = `draai ${draaisnelheidInSeconden}s linear infinite`;
     }
 
     stopAnimatie(machine) {
-        machine.mengmachineElement.classList.remove('mix-animatie');
+        machine.mengmachineElement.style.animation = '';
     }
 }
 

@@ -106,7 +106,7 @@ class Mengmachine {
         event.preventDefault();
     }
 
-    handleDrop(event) {
+    handleDrop(event, controller) {
         event.preventDefault();
 
         // extra status erbij gekomen wanner er iets niet in mag
@@ -129,13 +129,13 @@ class Mengmachine {
                     // anders kan je draggen, maar nergens laten droppen, iets netter
                     potElementOrigineel.draggable = false;
                 } else {
-                    alert('Er zit niks in de pot');
+                    controller.handleError('Er zit niks in de pot');
                 }
             } else {
-                alert(`Fout: Origineel pot element met ID ${potId} NIET gevonden!`);
+                controller.handleError(`Fout: Origineel pot element met ID ${potId} NIET gevonden!`);
             }
         } else {
-            alert('Fout: Geen pot ID ontvangen in dataTransfer!');
+            controller.handleError('Fout: Geen pot ID ontvangen in dataTransfer!');
         }
     }
 

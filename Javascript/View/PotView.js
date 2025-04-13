@@ -52,11 +52,11 @@ class PotView{
 
                     ingredientElementKloon.draggable = false;
                 } else {
-                    alert(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
+                    controller.handleError(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
                 }
 
             } else {
-                alert('Fout: Geen ingredient ID ontvangen in dataTransfer!');
+                controller.handleError('Fout: Geen ingredient ID ontvangen in dataTransfer!');
             }
         });
 

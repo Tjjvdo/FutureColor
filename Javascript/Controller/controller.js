@@ -22,7 +22,7 @@ class Controller {
         this.weerView = new WeerView();
 
         // Weather API
-        this.weatherAPI = new WeatherAPI();
+        this.weatherAPI = new WeatherAPI(this);
 
         // Navigatie
         this.MengHal1Knop = document.getElementById('MengHal1');
@@ -215,7 +215,7 @@ class Controller {
                 const gemengdeIngredient = new Ingredient(nieuwIngredient.mengtijd, nieuwIngredient.mengsnelheid, nieuwIngredient.kleur, nieuwIngredient.structuur);
 
                 // start animatie in de view
-                this.mengMachinesView.startAnimatie(machine);
+                this.mengMachinesView.startAnimatie(machine, 3 / nieuwIngredient.mengsnelheid);
 
                 // bereken de mengtijd
                 let mengtijd = nieuwIngredient.mengtijd * this.weatherAPI.getTijdMultiplier();
@@ -238,7 +238,7 @@ class Controller {
     }
 
     handleMixDrop(machine, event) {
-        machine.handleDrop(event);
+        machine.handleDrop(event, this);
     }
 
     // Testgrid functies
@@ -253,6 +253,10 @@ class Controller {
     handleVierkantClick(vierkantje) {
         const [ingredientAchtergrond, triadicRgbColors, triadicHslColors] = vierkantje.addClickListener();
         this.testGridView.showTriadicColorsPopup(vierkantje, ingredientAchtergrond, triadicRgbColors, triadicHslColors);
+    }
+
+    handleError(error) {
+        this.view.showError(error);
     }
 }
 

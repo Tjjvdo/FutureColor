@@ -11,30 +11,29 @@ const encodedLocatie = encodeURIComponent(locatie);
 const apiUrl = `https://weerlive.nl/api/weerlive_api_v2.php?key=${apiKey}&locatie=${encodedLocatie}`;
 
 class WeatherAPI {
-    constructor() {
+    constructor(controller) {
 
-        this.updateWeer(apiUrl);
+        this.updateWeer(apiUrl, controller);
 
-        this.addEventListeners();
+        this.addEventListeners(controller);
     }
 
-    addEventListeners() {
-        this.addLocatieSelectListener();
+    addEventListeners(controller) {
+        this.addLocatieSelectListener(controller);
     }
 
-    addLocatieSelectListener() {
+    addLocatieSelectListener(controller) {
         locatieSelect.addEventListener('change', () => {
             locatie = locatieSelect.value;
             const encodedLocatie = encodeURIComponent(locatie);
 
             const apiUrl = `https://weerlive.nl/api/weerlive_api_v2.php?key=${apiKey}&locatie=${encodedLocatie}`;
 
-            this.updateWeer(apiUrl);
-
+            this.updateWeer(apiUrl, controller);
         });
     }
 
-    updateWeer(apiUrl) {
+    updateWeer(apiUrl, controller) {
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
@@ -46,10 +45,10 @@ class WeatherAPI {
                     weerstypeSelect.value = this.bepaalWeertype(weer.samenv);
                     weerstypeSelect.dispatchEvent(new Event('change'));
                 } else {
-                    alert("Geen weerdata ontvangen.");
+                    controller.handleError("Geen weerdata ontvangen.");
                 }
             })
-            .catch(error => alert("Fout bij ophalen weerdata:", error));
+            .catch(error => controller.handleError(`Fout bij ophalen weerdata: ${error}`));
     }
 
     bepaalWeertype(weerSamenvatting) {

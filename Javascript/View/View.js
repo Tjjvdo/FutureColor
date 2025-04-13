@@ -6,6 +6,28 @@ class View{
         this.Hal1 = document.getElementById('hal-1');
         this.Hal2 = document.getElementById('hal-2');
         this.KleurenTest = document.getElementById('kleurentest-pagina');
+        
+        this.errorModal = document.getElementById('errorModal');
+        this.errorMessageElement = document.getElementById('errorMessage');
+        this.closeButton = document.querySelector('.close-button');
+
+        this.closeButton.addEventListener('click', this.closeModal.bind(this));
+        window.addEventListener('click', this.outsideClick.bind(this));
+    }
+
+    showError(message) {
+        this.errorMessageElement.textContent = message;
+        this.errorModal.style.display = "block";
+    }
+
+    closeModal() {
+        this.errorModal.style.display = "none";
+    }
+
+    outsideClick(event) {
+        if (event.target == this.errorModal) {
+            this.closeModal();
+        }
     }
 
     ToonMengHal1(){
