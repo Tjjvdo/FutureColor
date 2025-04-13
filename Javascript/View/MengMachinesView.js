@@ -46,10 +46,26 @@ class MengMachinesView{
     startAnimatie(machine, draaisnelheidInSeconden) {
         // zo draaien ze met verschillende snelheden
         machine.mengmachineElement.style.animation = `draai ${draaisnelheidInSeconden}s linear infinite`;
+
+        // Audio afspelen bij het starten van de animatie
+        const startGeluid = new Audio('Geluiden/lawnmower-starting-sound.mp3');
+
+        startGeluid.currentTime = 0.2;
+        startGeluid.play();
+
+        setTimeout(() => {
+            startGeluid.pause();
+        }, 1000);
     }
 
     stopAnimatie(machine) {
         machine.mengmachineElement.style.animation = '';
+
+        // Audio afspelen bij het stoppen van de animatie
+        const stopGeluid = new Audio('Geluiden/cararriveandstop.mp3');
+
+        stopGeluid.currentTime = 13.5;
+        stopGeluid.play();
     }
 }
 
