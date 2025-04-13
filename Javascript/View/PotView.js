@@ -50,6 +50,9 @@ class PotView{
                     const ingredientElementKloon = ingredientElementOrigineel.cloneNode(true);
                     potElement.appendChild(ingredientElementKloon);
 
+                    const gooSplash = new Audio('Geluiden/gooey-squish.mp3');
+                    gooSplash.play();
+
                     ingredientElementKloon.draggable = false;
                 } else {
                     controller.handleError(`Fout: Origineel ingredient element met ID ${ingredientId} NIET gevonden!`);
